@@ -9,9 +9,20 @@
   revision = "48acc03b9ddd85b5c8c268b480d5a9a3d523b9ad"
   version = "v1.1.0"
 
+[[projects]]
+  digest = "1:095d35650c3d8436073f2ef10e666771f044f574ba24f5840e057ae2cec2556a"
+  name = "github.com/imroc/req"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1c31a6577f8dc9552e6032f94f5d0ed2f0b7d1f3"
+  version = "v0.2.4"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/confluentinc/confluent-kafka-go/kafka"]
+  input-imports = [
+    "github.com/confluentinc/confluent-kafka-go/kafka",
+    "github.com/imroc/req",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1

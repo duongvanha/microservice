@@ -67,27 +67,28 @@ func ExecService(pathService string) {
 
 	dockerFile := path.Join(pathService, fmt.Sprintf("../../../docker/%s.dockerfile", build.Lang))
 
-	cmd := exec.Command("docker", "build", ".", "-t", fmt.Sprintf("%s:%s", build.Name, buildId), fmt.Sprintf("-f=%s", dockerFile))
-	cmd.Dir = path.Dir(pathService)
-	out, err := cmd.Output()
+	fmt.Println("Build Docker -->")
+	err = ExecCmd(pathService, "docker", "build", ".", "-t", fmt.Sprintf("%s:%s", build.Name, buildId), fmt.Sprintf("-f=%s", dockerFile))
 	if err != nil {
 		fmt.Println("Error build docker %w", err)
 		os.Exit(1)
 	}
-
-	fmt.Println("Build Docker --> %w", string(out))
-
-	cmd = exec.Command("docker", "push", fmt.Sprintf("%s:%s", build.Name, buildId))
-	cmd.Dir = path.Dir(pathService)
-	out, err = cmd.Output()
+	fmt.Println("Push Docker -->")
+	err = ExecCmd(pathService, "docker", "push", fmt.Sprintf("%s:%s", build.Name, buildId))
 	if err != nil {
 		fmt.Println("Push image docker %w", err)
 		os.Exit(1)
 	}
 
-	fmt.Println("Push Docker --> %w", string(out))
+}
 
-	os.Exit()
+func ExecCmd(dir, name string, args ...string) error {
+	cmd := exec.Command(name, args...)
+	cmd.Dir = path.Dir(dir)
+
+	cmd.Stdout = os.Stdout
+
+	return cmd.Run()
 }
 
 func Execute() {

@@ -6,7 +6,7 @@
   actions:
     - action: Build Docker image
       type: DOCKERFILE
-      disabled: true
+      disabled: false
       dockerfile_path: src/docker/go.dockerfile
       context_path: .
       trigger_condition: ALWAYS

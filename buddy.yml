@@ -6,8 +6,8 @@
   actions:
     - action: Build Docker image
       type: DOCKERFILE
-      login: ${DOCKER_USERNAME}
-      password: ${DOCKER_PASSWORD}
+      login: $DOCKER_USERNAME
+      password: secure!+xmZnhe6DEcEPAlSioiycjtiz7E4mFqLbzs1Td60gKI=
       disabled: false
       docker_image_tag: latest,${BUDDY_EXECUTION_REVISION}
       dockerfile_path: src/docker/go.dockerfile

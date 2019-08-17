@@ -1,0 +1,12 @@
+#- pipeline: "demo"
+#  trigger_mode: "MANUAL"
+#  ref_name: "kafka/consumer"
+#  ref_type: "BRANCH"
+#  trigger_condition: "ALWAYS"
+#  actions:
+#    - action: "Build Docker image"
+#      type: "DOCKERFILE"
+#      disabled: true
+#      dockerfile_path: "src/docker/go.dockerfile"
+#      context_path: "."
+#      trigger_condition: "ALWAYS"

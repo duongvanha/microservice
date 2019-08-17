@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"path"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -83,6 +84,7 @@ func ExecService(pathService string) {
 }
 
 func ExecCmd(dir, name string, args ...string) error {
+	fmt.Println("Run cmd -->", name, strings.Join(args, " "))
 	cmd := exec.Command(name, args...)
 	cmd.Dir = path.Dir(dir)
 

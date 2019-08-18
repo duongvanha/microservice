@@ -1,0 +1,20 @@
+- pipeline: infra
+  trigger_mode: MANUAL
+  ref_name: master
+  ref_type: BRANCH
+  trigger_condition: ALWAYS
+  actions:
+  - action: "Execute: ansible-playbook -i hosts ansible/workers-node.yml"
+    type: "BUILD"
+    working_directory: "/buddy/microservice"
+    docker_image_name: "ansible/ansible"
+    docker_image_tag: "ubuntu1604"
+    execute_commands:
+      - "echo '${ANSBILE_HOSTS}' > hosts"
+      - "ansible-playbook -i hosts infra/ansible/initial.yml"
+      - "ansible-playbook -i hosts infra/ansible/kube-dependencies.yml"
+      - "ansible-playbook -i hosts infra/ansible/master-node.yml"
+      - "ansible-playbook -i hosts infra/ansible/workers-node.yml"
+    mount_filesystem_path: "/buddy/microservice"
+    shell: "BASH"
+    trigger_condition: "ALWAYS"

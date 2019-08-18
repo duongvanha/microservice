@@ -103,6 +103,16 @@ func BuildBuddyYml(services []*Build) error {
 		})
 	}
 
+	var prefix []byte
+
+	file, err := ioutil.ReadFile("base.yml")
+
+	if err != nil {
+		println("warning file base nil ", err)
+	} else {
+		prefix = file
+	}
+
 	output, err := yaml.Marshal(&actions)
 	if err != nil {
 		log.Fatalf("error: %v", err)
@@ -116,7 +126,7 @@ func BuildBuddyYml(services []*Build) error {
 		return err
 	}
 
-	_, err = writer.Write(output)
+	_, err = writer.Write(append(prefix, output...))
 
 	return err
 }

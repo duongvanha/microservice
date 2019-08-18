@@ -4,17 +4,27 @@
   ref_type: BRANCH
   trigger_condition: ALWAYS
   actions:
+  - action: "terraform apply"
+    type: "BUILD"
+    working_directory: "/buddy/microservice/infra"
+    docker_image_name: "hashicorp/terraform"
+    docker_image_tag: "light"
+    execute_commands:
+    - "terraform apply --auto-approve"
+    mount_filesystem_path: "/buddy/microservice"
+    shell: "BASH"
+    trigger_condition: "ALWAYS"
   - action: "Execute: ansible-playbook -i hosts ansible/workers-node.yml"
     type: "BUILD"
     working_directory: "/buddy/microservice"
     docker_image_name: "ansible/ansible"
     docker_image_tag: "ubuntu1604"
     execute_commands:
-      - "echo '${ANSBILE_HOSTS}' > hosts"
-      - "ansible-playbook -i hosts infra/ansible/initial.yml"
-      - "ansible-playbook -i hosts infra/ansible/kube-dependencies.yml"
-      - "ansible-playbook -i hosts infra/ansible/master-node.yml"
-      - "ansible-playbook -i hosts infra/ansible/workers-node.yml"
+    - "echo '${ANSBILE_HOSTS}' > hosts"
+    - "ansible-playbook -i hosts infra/ansible/initial.yml"
+    - "ansible-playbook -i hosts infra/ansible/kube-dependencies.yml"
+    - "ansible-playbook -i hosts infra/ansible/master-node.yml"
+    - "ansible-playbook -i hosts infra/ansible/workers-node.yml"
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"
     trigger_condition: "ALWAYS"

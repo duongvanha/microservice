@@ -10,9 +10,7 @@
     docker_image_name: "hashicorp/terraform"
     docker_image_tag: "light"
     execute_commands:
-    - "pwd && terraform apply --auto-approve"
-    setup_commands:
-    - "cd infra && terraform init"
+    - "cd infra && terraform init && terraform apply --auto-approve"
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"
     trigger_condition: "ALWAYS"

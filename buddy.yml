@@ -6,13 +6,13 @@
   actions:
   - action: "terraform apply"
     type: "BUILD"
-    working_directory: "/buddy/microservice/infra"
+    working_directory: "/buddy/microservice"
     docker_image_name: "hashicorp/terraform"
     docker_image_tag: "light"
     execute_commands:
-    - "terraform apply --auto-approve"
+    - "cd infra && terraform apply --auto-approve"
     setup_commands:
-    - "terraform init"
+    - "pwd && terraform init"
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"
     trigger_condition: "ALWAYS"

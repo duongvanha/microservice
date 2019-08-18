@@ -7,8 +7,8 @@
   - action: "terraform apply"
     type: "BUILD"
     working_directory: "/buddy/microservice"
-    docker_image_name: "library/ubuntu"
-    docker_image_tag: "16.04"
+    docker_image_name: "hashicorp/terraform"
+    docker_image_tag: "light"
     execute_commands:
     - "echo hello"
     mount_filesystem_path: "/buddy/microservice"

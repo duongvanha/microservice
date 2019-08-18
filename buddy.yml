@@ -6,11 +6,17 @@
   actions:
   - action: "terraform apply"
     type: "BUILD"
-    working_directory: "/buddy/microservice"
-    docker_image_name: "hashicorp/terraform"
-    docker_image_tag: "light"
+    working_directory: "/buddy/microservice/infra"
+    docker_image_name: "library/ubuntu"
+    docker_image_tag: "18.04"
     execute_commands:
-    - "echo hello"
+    - "pwd"
+    setup_commands:
+    - "sudo apt-get update"
+    - "sudo apt-get install wget unzip"
+    - "wget https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip"
+    - "sudo unzip ./terraform_0.11.13_linux_amd64.zip -d /usr/local/bin/"
+    - "terraform -v"
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"
     trigger_condition: "ALWAYS"

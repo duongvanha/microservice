@@ -10,9 +10,9 @@
     docker_image_name: "library/ubuntu"
     docker_image_tag: "18.04"
     execute_commands:
-    - "openssl enc -d -aes-256-cbc -in env/microservices.json.enc -out env/microservices.json.enc -K $PASWORD_CREDENTIAL_FILE"
+    - "openssl enc -d -aes-256-cbc -in ../env/microservices.json.enc -out ../env/microservices.json -K $PASWORD_CREDENTIAL_FILE"
     - "terraform init && terraform apply --auto-approve"
-    - "rm -rf env/microservices.json"
+    - "rm -rf ../env/microservices.json"
     setup_commands:
     - "apt-get update"
     - "apt-get --assume-yes install wget unzip"

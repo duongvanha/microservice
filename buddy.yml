@@ -10,7 +10,7 @@
     docker_image_name: "library/ubuntu"
     docker_image_tag: "18.04"
     execute_commands:
-    - "echo $PASWORD_CREDENTIAL_FILE"
+    - "openssl version"
     - "openssl enc -in ../env/microservices.json.enc -out ../env/microservices.json -d -aes256 -pass pass:$PASWORD_CREDENTIAL_FILE -iv $HEX"
     - "terraform init && terraform apply --auto-approve"
     - "rm -rf ../env/microservices.json"

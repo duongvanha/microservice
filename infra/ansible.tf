@@ -14,7 +14,7 @@ resource "null_resource" "dev-hosts" {
 
   provisioner "local-exec" {
     // https://buddy.works/blog/new-feature-passing-parameters
-    command = "echo ${data.template_file.dev_hosts.rendered} >> hosts"
+    command = "echo \"${data.template_file.dev_hosts.rendered}\" >> hosts"
   }
 
 }

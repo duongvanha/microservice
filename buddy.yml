@@ -14,7 +14,7 @@
     - "openssl enc -in ../env/microservices.json.enc -out ../env/microservices.json -d -aes256 -pass pass:$PASWORD_CREDENTIAL_FILE"
     - "terraform init && terraform apply --auto-approve"
     - "rm -rf ../env/microservices.json"
-    - "rm -rf ~/.terraformrc"
+#    - "rm -rf ~/.terraformrc"
     setup_commands:
     - "apt-get update"
     - "apt-get --assume-yes install wget unzip"

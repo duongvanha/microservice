@@ -10,7 +10,7 @@
     docker_image_name: "library/ubuntu"
     docker_image_tag: "18.04"
     execute_commands:
-    - "echo pwd"
+    - "pwd"
     - "echo 'credentials \"app.terraform.io\" {\ntoken = '$TOKEN_TERRAFORM_IO'\n}' > .terraformrc"
     - "openssl enc -in ../env/microservices.json.enc -out ../env/microservices.json -d -aes256 -pass pass:$PASWORD_CREDENTIAL_FILE"
     - "terraform init && terraform apply --auto-approve"

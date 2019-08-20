@@ -26,46 +26,19 @@
     trigger_condition: "ALWAYS"
   - action: "ansible worker"
     type: "BUILD"
-    working_directory: "/buddy/microservice"
-    docker_image_name: "ansible/ansible"
+    working_directory: "/buddy/microservice/infra"
+    docker_image_name: "library/ubuntu"
     docker_image_tag: "ubuntu1604"
     execute_commands:
     - "ansible-playbook -i hosts infra/ansible/initial.yml"
     - "ansible-playbook -i hosts infra/ansible/kube-dependencies.yml"
     - "ansible-playbook -i hosts infra/ansible/master-node.yml"
     - "ansible-playbook -i hosts infra/ansible/workers-node.yml"
+    setup_commands:
+    - "apt-add-repository ppa:ansible/ansible -y"
+    - "apt update"
+    - "sudo apt install ansible -y"
+    - "ansible-playbook --version"
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"
     trigger_condition: "ALWAYS"
-#- pipeline: simple
-#  trigger_mode: ON_EVERY_PUSH
-#  ref_name: master
-#  ref_type: BRANCH
-#  trigger_condition: ALWAYS
-#  actions:
-#  - action: Build Docker image
-#    type: DOCKERFILE
-#    login: ${DOCKER_USERNAME}
-#    password: secure!+xmZnhe6DEcEPAlSioiycjtiz7E4mFqLbzs1Td60gKI=
-#    disabled: false
-#    docker_image_tag: latest,${BUDDY_EXECUTION_REVISION}
-#    dockerfile_path: src/docker/go.dockerfile
-#    context_path: src/services/simple
-#    repository: blademaster996/simple
-#    trigger_condition: ALWAYS
-#- pipeline: simple2
-#  trigger_mode: ON_EVERY_PUSH
-#  ref_name: master
-#  ref_type: BRANCH
-#  trigger_condition: ALWAYS
-#  actions:
-#  - action: Build Docker image
-#    type: DOCKERFILE
-#    login: ${DOCKER_USERNAME}
-#    password: secure!+xmZnhe6DEcEPAlSioiycjtiz7E4mFqLbzs1Td60gKI=
-#    disabled: false
-#    docker_image_tag: latest,${BUDDY_EXECUTION_REVISION}
-#    dockerfile_path: src/docker/go.dockerfile
-#    context_path: src/services/simple2
-#    repository: blademaster996/simple2
-#    trigger_condition: ALWAYS

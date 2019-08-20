@@ -26,7 +26,7 @@
     trigger_condition: "ALWAYS"
   - action: "ansible worker"
     type: "BUILD"
-    working_directory: "/buddy/microservice/infra"
+    working_directory: "~"
     docker_image_name: "library/ubuntu"
     docker_image_tag: "18.04"
     execute_commands:

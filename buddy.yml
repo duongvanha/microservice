@@ -10,9 +10,11 @@
     docker_image_name: "library/ubuntu"
     docker_image_tag: "18.04"
     execute_commands:
+    - "echo 'credentials \"app.terraform.io\" {\ntoken = '$TOKEN_TERRAFORM_IO'\n}' > ~/.terraformrc"
     - "openssl enc -in ../env/microservices.json.enc -out ../env/microservices.json -d -aes256 -pass pass:$PASWORD_CREDENTIAL_FILE"
     - "terraform init && terraform apply --auto-approve"
     - "rm -rf ../env/microservices.json"
+    - "rm -rf ~/.terraformrc"
     setup_commands:
     - "apt-get update"
     - "apt-get --assume-yes install wget unzip"
@@ -22,7 +24,7 @@
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"
     trigger_condition: "ALWAYS"
-  - action: "Execute: ansible-playbook -i hosts ansible/workers-node.yml"
+  - action: "ansible worker"
     type: "BUILD"
     working_directory: "/buddy/microservice"
     docker_image_name: "ansible/ansible"

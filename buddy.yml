@@ -35,8 +35,8 @@
     - "ansible-playbook -i hosts ansible/master-node.yml"
     - "ansible-playbook -i hosts ansible/workers-node.yml"
     setup_commands:
-    - "apt-get update -q && apt-get install software-properties-common -y"
-    - "apt-get update -q && apt-add-repository ppa:ansible/ansible -y -q"
+    - "apt-get update -q && apt-get install software-properties-common -y -q"
+    - "apt-get update -q && apt-add-repository ppa:ansible/ansible -y"
     - "apt-get update -q && apt-get install ansible -y -q"
     - "ansible-playbook --version"
     mount_filesystem_path: "/buddy/microservice"

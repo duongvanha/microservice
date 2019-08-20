@@ -35,6 +35,7 @@
     - "ansible-playbook -i hosts infra/ansible/master-node.yml"
     - "ansible-playbook -i hosts infra/ansible/workers-node.yml"
     setup_commands:
+    - "apt-get update"
     - "apt-get install software-properties-common -y"
     - "apt update"
     - "apt-add-repository ppa:ansible/ansible -y"

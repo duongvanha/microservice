@@ -35,9 +35,11 @@
     - "ansible-playbook -i hosts infra/ansible/master-node.yml"
     - "ansible-playbook -i hosts infra/ansible/workers-node.yml"
     setup_commands:
+    - "apt-get install software-properties-common -y"
+    - "apt update"
     - "apt-add-repository ppa:ansible/ansible -y"
     - "apt update"
-    - "sudo apt install ansible -y"
+    - "apt install ansible -y"
     - "ansible-playbook --version"
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"

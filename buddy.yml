@@ -30,7 +30,7 @@
     docker_image_name: "library/ubuntu"
     docker_image_tag: "18.04"
     execute_commands:
-    - "export ANSIBLE_HOST_KEY_CHECKING = False"
+    - "export ANSIBLE_HOST_KEY_CHECKING=False"
     - "ansible-playbook -i hosts ansible/initial.yml"
     - "ansible-playbook -i hosts ansible/kube-dependencies.yml"
     - "ansible-playbook -i hosts ansible/master-node.yml"

@@ -13,4 +13,4 @@
     - name: set up authorized keys for the duongha user
       authorized_key: user=duongha key="{{item}}"
       with_file:
-        - ../env/id_rsa.pub
+        - ../../env/id_rsa.pub

@@ -28,7 +28,7 @@
     type: "BUILD"
     working_directory: "/buddy/microservice/infra"
     docker_image_name: "library/ubuntu"
-    docker_image_tag: "ubuntu1604"
+    docker_image_tag: "18.04"
     execute_commands:
     - "ansible-playbook -i hosts infra/ansible/initial.yml"
     - "ansible-playbook -i hosts infra/ansible/kube-dependencies.yml"

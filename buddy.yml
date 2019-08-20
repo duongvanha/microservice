@@ -16,8 +16,8 @@
     - "rm -rf ../env/microservices.json"
     - "rm -rf .terraformrc"
     setup_commands:
-    - "apt-get update"
-    - "apt-get --assume-yes install wget unzip"
+    - "apt-get update -q"
+    - "apt-get install wget unzip -y -q"
     - "wget https://releases.hashicorp.com/terraform/0.12.6/terraform_0.12.6_linux_amd64.zip"
     - "unzip ./terraform_0.12.6_linux_amd64.zip -d /usr/local/bin/"
     - "terraform -v"
@@ -35,9 +35,9 @@
     - "ansible-playbook -i hosts infra/ansible/master-node.yml"
     - "ansible-playbook -i hosts infra/ansible/workers-node.yml"
     setup_commands:
-    - "apt-get update && apt-get install software-properties-common -y"
-    - "apt-get update && apt-add-repository ppa:ansible/ansible -y"
-    - "apt-get update && apt-get install ansible -y"
+    - "apt-get update -q && apt-get install software-properties-common -y -q"
+    - "apt-get update -q && apt-add-repository ppa:ansible/ansible -y -q"
+    - "apt-get update -q && apt-get install ansible -y -q"
     - "ansible-playbook --version"
     mount_filesystem_path: "/buddy/microservice"
     shell: "BASH"

@@ -12,7 +12,7 @@
     execute_commands:
     - "echo 'credentials \"app.terraform.io\" {\ntoken = \"'$TOKEN_TERRAFORM_IO'\"\n}' > .terraformrc"
     - "openssl enc -in ../env/microservices.json.enc -out ../env/microservices.json -d -aes256 -pass pass:$PASWORD_CREDENTIAL_FILE"
-    - "terraform init && terraform apply --auto-approve"
+    - "terraform init && terraform taint null_resource.dev-hosts && terraform apply --auto-approve"
     - "rm -rf ../env/microservices.json"
     - "rm -rf .terraformrc"
     setup_commands:

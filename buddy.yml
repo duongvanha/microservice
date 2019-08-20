@@ -30,7 +30,6 @@
     docker_image_name: "ansible/ansible"
     docker_image_tag: "ubuntu1604"
     execute_commands:
-    - "echo ${ANSBILE_HOSTS} > hosts"
     - "ansible-playbook -i hosts infra/ansible/initial.yml"
     - "ansible-playbook -i hosts infra/ansible/kube-dependencies.yml"
     - "ansible-playbook -i hosts infra/ansible/master-node.yml"

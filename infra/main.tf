@@ -24,6 +24,20 @@ resource "google_compute_instance" "vm_master" {
 
 }
 
+resource "google_compute_firewall" "access_k8s" {
+  name = "allow-access-k8s"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports = ["6443"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags = ["master"]
+
+}
+
 resource "google_compute_instance" "vm_worker1" {
   name = "worker1"
   machine_type = "f1-micro"

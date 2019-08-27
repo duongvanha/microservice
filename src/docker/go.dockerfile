@@ -13,4 +13,4 @@ COPY --from=builder /service /
 WORKDIR /app
 EXPOSE 8080
 
-ENTRYPOINT ["./service"]
+ENTRYPOINT ["/service"]

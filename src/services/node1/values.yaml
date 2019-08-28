@@ -1,0 +1,19 @@
+replicaCount: 1
+
+fullnameOverride: node-service
+
+image:
+  repository: blademaster996/node1
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000
+
+
+ingress:
+  enabled: false
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"

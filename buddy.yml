@@ -95,7 +95,3 @@
     context_path: src/services/simple2
     repository: blademaster996/simple2
     trigger_condition: ALWAYS
-  dockerfile_path: src/docker/go.dockerfile
-    context_path: src/services/simple2
-    repository: blademaster996/simple2
-    trigger_condition: ALWAYS

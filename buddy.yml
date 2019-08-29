@@ -2,6 +2,8 @@
   trigger_mode: ON_EVERY_PUSH
   ref_name: master
   ref_type: BRANCH
+  always_from_scratch: true
+  auto_clear_cache: true
   trigger_condition: ALWAYS
   actions:
   - action: "terraform apply"

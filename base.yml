@@ -40,7 +40,7 @@
     - "ssh $(terraform output ip_master)"
     - "curl -L https://git.io/get_helm.sh | bash"
     - "kubectl create -f tiller-rbac.yaml"
-    - "helm init --service-account tiller --upgrade"
+    - "helm init --service-account haduong --upgrade"
     setup_commands:
     - "apt-get update -q && apt-get install software-properties-common -y -q"
     - "apt-get update -q && apt-add-repository ppa:ansible/ansible -y"

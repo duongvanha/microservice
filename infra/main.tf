@@ -19,7 +19,7 @@ resource "google_compute_instance" "vm_master" {
   }
 
   metadata = {
-    ssh-keys = "duongha:${file("../env/id_rsa.pub")}"
+    ssh-keys = "haduong:${file("../env/id_rsa.pub")}"
   }
 
 }
@@ -53,7 +53,7 @@ resource "google_compute_instance" "vm_worker1" {
   }
 
   metadata = {
-    ssh-keys = "duongha:${file("../env/id_rsa.pub")}"
+    ssh-keys = "haduong:${file("../env/id_rsa.pub")}"
   }
 
   network_interface {

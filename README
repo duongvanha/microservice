@@ -1,1 +1,14 @@
+issues
+
+---------------
 Using same version openssl encrypt and decrypt
+
+----------------
+https://github.com/kubernetes/kubeadm/issues/1390
+
+Instead of using --apiserver-advertise-address=publicIp use --apiserver-cert-extra-sans=publicIp
+
+Don't forget to replace the private ip for the public ip in your .kube/config if you use kubectl from remote.
+
+----------------
+

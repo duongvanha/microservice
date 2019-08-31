@@ -1,16 +1,16 @@
 - hosts: all
   become: yes
   tasks:
-    - name: create the 'duongha' user
-      user: name=duongha append=yes state=present createhome=yes shell=/bin/bash
+    - name: create the 'haduong' user
+      user: name=haduong append=yes state=present createhome=yes shell=/bin/bash
 
-    - name: allow 'duongha' to have passwordless sudo
+    - name: allow 'haduong' to have passwordless sudo
       lineinfile:
         dest: /etc/sudoers
-        line: 'duongha ALL=(ALL) NOPASSWD: ALL'
+        line: 'haduong ALL=(ALL) NOPASSWD: ALL'
         validate: 'visudo -cf %s'
 
-    - name: set up authorized keys for the duongha user
-      authorized_key: user=duongha key="{{item}}"
+    - name: set up authorized keys for the haduong user
+      authorized_key: user=haduong key="{{item}}"
       with_file:
         - ../../env/id_rsa.pub

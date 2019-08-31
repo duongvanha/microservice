@@ -42,3 +42,8 @@
         name: kubectl=1.14.0-00
         state: present
         force: yes
+
+    - name: install helm
+      become: yes
+      become_user: haduong
+      shell: curl -L https://git.io/get_helm.sh | bash

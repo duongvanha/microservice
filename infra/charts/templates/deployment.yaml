@@ -16,6 +16,7 @@ spec:
                 app.kubernetes.io/name: {{ include "charts.name" . }}
                 app.kubernetes.io/instance: {{ .Release.Name }}
         spec:
+            serviceAccountName: {{ include "charts.fullname" . }}-service-account
             containers:
             - name: {{ .Chart.Name }}
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

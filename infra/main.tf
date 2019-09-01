@@ -40,7 +40,7 @@ resource "google_compute_firewall" "access_k8s" {
 
 resource "google_compute_instance" "vm_worker1" {
   name = "worker1"
-  machine_type = "f1-micro"
+  machine_type = "n1-highcpu-2"
   tags = [
     "worker",
     "dev"

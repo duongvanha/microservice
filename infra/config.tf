@@ -1,4 +1,4 @@
-provider "google" {
+provider "google-beta" {
   credentials = file("../env/microservices.json")
 
   project = var.project

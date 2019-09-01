@@ -1,63 +1,41 @@
-resource "google_compute_instance" "vm_master" {
-  name = "master"
-  machine_type = "n1-standard-4"
-  tags = [
-    "master",
-    "k8"
-  ]
+resource "google_container_cluster" "primary" {
+  provider = "google-beta"
+  name = "my-gke-cluster"
+  location = var.region
 
-  boot_disk {
-    initialize_params {
-      image = "ubuntu-1804-lts"
+  remove_default_node_pool = true
+  initial_node_count = 1
+
+  network_policy {
+    enabled = true
+  }
+
+  addons_config {
+    istio_config {
+      disabled = false
     }
   }
 
+  logging_service = "none"
 
-  network_interface {
-    network = "default"
-    access_config {}
-  }
-
-  metadata = {
-    ssh-keys = "haduong:${file("../env/id_rsa.pub")}"
-  }
+  monitoring_service = "none"
 
 }
 
-resource "google_compute_firewall" "access_k8s" {
-  name = "allow-access-k8s"
-  network = "default"
+resource "google_container_node_pool" "node-1" {
+  project = var.project
+  name = "node-1"
+  location = var.region
+  cluster = google_container_cluster.primary.name
+  initial_node_count = 1
 
-  allow {
-    protocol = "tcp"
-    ports = ["6443"]
-  }
+  node_config {
+    preemptible = true
+    machine_type = "n1-standard-2"
 
-  source_ranges = ["0.0.0.0/0"]
-  target_tags = ["master"]
-
-}
-
-resource "google_compute_instance" "vm_worker1" {
-  name = "worker1"
-  machine_type = "n1-standard-4"
-  tags = [
-    "worker",
-    "dev"
-  ]
-
-  boot_disk {
-    initialize_params {
-      image = "ubuntu-1804-lts"
+    metadata = {
+      disable-legacy-endpoints = "true"
     }
-  }
 
-  metadata = {
-    ssh-keys = "haduong:${file("../env/id_rsa.pub")}"
-  }
-
-  network_interface {
-    network = "default"
-    access_config {}
   }
 }

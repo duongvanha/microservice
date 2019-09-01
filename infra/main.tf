@@ -1,6 +1,6 @@
 resource "google_compute_instance" "vm_master" {
   name = "master"
-  machine_type = "n1-highcpu-2"
+  machine_type = "n1-standard-4"
   tags = [
     "master",
     "k8"
@@ -40,7 +40,7 @@ resource "google_compute_firewall" "access_k8s" {
 
 resource "google_compute_instance" "vm_worker1" {
   name = "worker1"
-  machine_type = "n1-highcpu-2"
+  machine_type = "n1-standard-4"
   tags = [
     "worker",
     "dev"

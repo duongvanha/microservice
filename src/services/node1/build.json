@@ -4,6 +4,7 @@
   "name": "blademaster996/node1",
   "type": "api",
   "route": {
-    "path": "/demo"
+    "path": "/demo",
+    "port": 3000
   }
 }

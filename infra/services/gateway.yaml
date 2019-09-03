@@ -25,9 +25,9 @@ spec:
     http:
     - match:
       - uri:
-            prefix: /
+            exact: /hello
       route:
       - destination:
-            host: {{ include "charts.fullname" . }}.microservice.svc.cluster.local
+            host:  {{ include "charts.fullname" . }}-service
             port:
                 number: {{ .Values.service.port }}

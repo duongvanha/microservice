@@ -20,3 +20,8 @@ Some of them, as pilot, have a large impact in terms of memory and CPU, so it is
 
 Begin project. I'm using terraform to create google cloud compute, ansible to create kubernetes Architecture. For learning.
 But google support kubernetes Architecture ( gke ) -> using terraform create kubernetes Architecture and helm for update service
+
+----------------
+
+tools gen values for charts by build.json
+

@@ -38,6 +38,9 @@ Some of them, as pilot, have a large impact in terms of memory and CPU, so it is
 `https://istio.io/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports"
 Some cloud provider support `
 
+## Notes branch
+- kube-adm-google
+Branch stores the writing setup process infra on google cloud (not use gke) using ansible + terraform
 
 
 ## Notes document References

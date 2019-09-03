@@ -30,11 +30,11 @@ Write by go in src/tools
 Instead of using --apiserver-advertise-address=publicIp use --apiserver-cert-extra-sans=publicIp
 Don't forget to replace the private ip for the public ip in your .kube/config if you use kubectl from remote.`
 
-- Istio require memory and CPU
+- Istio require memory and CPU
 `As per "https://docs.giantswarm.io/guides/deploying-istio/"
 Some of them, as pilot, have a large impact in terms of memory and CPU, so it is recommended to have around 8GB of memory and 4 CPUs free in your cluster. Obviously, all components have requested resources defined, so if you don’t have enough capacity you will see pods not starting.`
 
-- Istio gateway
+- Istio gateway
 `https://istio.io/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports"
 Some cloud provider support `
 

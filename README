@@ -2,14 +2,24 @@
 
 # Terraform
 
-Terraform create Infrastructure by code.
-- demo
-
 Terraform create Infrastructure by code ( gke ):
 
 - copy file env/microservices.json (credential for google cloud)
 
 - terraform plan for review infra, terraform apply for apply infra
+
+
+# Tools
+
+Write by go in src/tools
+
+- Gen config cicd ( buddy.works ) for service `tools buddy`
+
+- Gen value helm chart for service ( helm upgrade )
+`cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.tag=latest ../../../infra/charts --namespace microservice`
+
+- Gen gateway-route for all service ( kubectl apply )
+`kubectl -n microservice apply -f infra/services/gateway.yaml`
 
 
 ## Notes issue
@@ -33,3 +43,17 @@ Some cloud provider support `
 ## Notes document References
 
 - http://docs.shippable.com/deploy/tutorial/create-kubeconfig-for-self-hosted-kubernetes-cluster/
+
+- https://medium.com/@zhaohuabing/which-one-is-the-right-choice-for-the-ingress-gateway-of-your-service-mesh-21a280d4a29c
+
+## Todo
+
+- [ ] Grafana ( istio support )
+- [ ] Prometheus
+- [ ] Move to aws if have money
+- [ ] Tools gen istio-gateway ( route for all services )
+- [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )
+- [ ] Setup elk ( log service )
+- [ ] Setup CockroachDB ( test HA )
+- [ ] Setup kafka
+- [ ] More

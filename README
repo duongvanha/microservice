@@ -1,27 +1,37 @@
-issues
+# Setup infra for learning
 
----------------
-Using same version openssl encrypt and decrypt
+# Terraform
 
-----------------
-https://github.com/kubernetes/kubeadm/issues/1390
+Terraform create Infrastructure by code.
+- demo
 
+Terraform create Infrastructure by code ( gke ):
+
+- copy file env/microservices.json (credential for google cloud)
+
+- terraform plan for review infra, terraform apply for apply infra
+
+
+## Notes issue
+
+- Using same version openssl encrypt and decrypter
+- Kubeadm ( setup hosted kubernetes cluster not using gke because begin learning 😭)
+`https://github.com/kubernetes/kubeadm/issues/1390
 Instead of using --apiserver-advertise-address=publicIp use --apiserver-cert-extra-sans=publicIp
+Don't forget to replace the private ip for the public ip in your .kube/config if you use kubectl from remote.`
 
-Don't forget to replace the private ip for the public ip in your .kube/config if you use kubectl from remote.
+- Istio require memory and CPU
+`As per "https://docs.giantswarm.io/guides/deploying-istio/"
+Some of them, as pilot, have a large impact in terms of memory and CPU, so it is recommended to have around 8GB of memory and 4 CPUs free in your cluster. Obviously, all components have requested resources defined, so if you don’t have enough capacity you will see pods not starting.`
 
-----------------
+- Istio gateway
+`https://istio.io/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports"
+Some cloud provider support `
 
-As per "https://docs.giantswarm.io/guides/deploying-istio/"
 
-Some of them, as pilot, have a large impact in terms of memory and CPU, so it is recommended to have around 8GB of memory and 4 CPUs free in your cluster. Obviously, all components have requested resources defined, so if you don’t have enough capacity you will see pods not starting.
 
-----------------
+## Notes document References
 
-Begin project. I'm using terraform to create google cloud compute, ansible to create kubernetes Architecture. For learning.
-But google support kubernetes Architecture ( gke ) -> using terraform create kubernetes Architecture and helm for update service
+- http://docs.shippable.com/deploy/tutorial/create-kubeconfig-for-self-hosted-kubernetes-cluster/
 
-----------------
-
-tools gen values for charts by build.json
-
+- http://docs.shippable.com/deploy/tutorial/create-kubeconfig-for-self-hosted-kubernetes-cluster/

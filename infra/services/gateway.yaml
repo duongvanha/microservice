@@ -28,6 +28,6 @@ spec:
             exact: /hello
       route:
       - destination:
-            host:  {{ include "charts.fullname" . }}-service
+            host:  node-service-service
             port:
-                number: {{ .Values.service.port }}
+                number: 3000

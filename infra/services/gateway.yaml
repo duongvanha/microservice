@@ -28,6 +28,6 @@ spec:
             exact: /hello
       route:
       - destination:
-            host:  node-service-service
+            host: node-service
             port:
                 number: 3000

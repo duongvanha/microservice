@@ -43,3 +43,23 @@ resource "google_container_node_pool" "node-1" {
 
   }
 }
+
+resource "null_resource" "apply" {
+
+  depends_on = [
+    google_container_node_pool.node-1,
+    google_container_cluster.primary
+  ]
+
+  provisioner "local-exec" {
+    command = <<EOF
+      gcloud beta container clusters get-credentials ${google_container_cluster.primary.name} --region ${google_container_cluster.primary.region} --project ${google_container_cluster.primary.project}
+      kubectl apply -f tiller-rbac.yaml
+      rm -rf ~/.helm
+      helm init --service-account haduong
+      cd istio
+      helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+      helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set grafana.enabled=true | kubectl apply -f -
+    EOF
+  }
+}

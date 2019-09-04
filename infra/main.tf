@@ -60,6 +60,7 @@ resource "null_resource" "apply" {
       cd istio
       helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
       helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set grafana.enabled=true | kubectl apply -f -
+      kubectl apply -f services/node-grafana.yaml
       kubectl create namespace microservice
       kubectl label namespace microservice istio-injection=enabled
     EOF

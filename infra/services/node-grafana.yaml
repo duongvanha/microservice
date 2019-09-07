@@ -1,18 +1,18 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: grafana-gateway
+  name: microservice-gateway-system
   namespace: istio-system
 spec:
   selector:
-    istio: ingressgateway
+    istio: ingressgateway # use istio default controller
   servers:
   - port:
-      number: 15031
-      name: http-grafana
+      number: 80
+      name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - grafana.haduong.me
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -21,12 +21,13 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-  - "*"
+  - grafana.haduong.me
   gateways:
-  - grafana-gateway
+  - microservice-gateway-system
   http:
   - match:
-    - port: 15031
+    - uri:
+        prefix: /
     route:
     - destination:
         host: grafana

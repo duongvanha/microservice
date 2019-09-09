@@ -10,15 +10,15 @@ resource "google_container_cluster" "primary" {
     enabled = true
   }
 
-  addons_config {
-    istio_config {
-      disabled = false
-    }
-
-    kubernetes_dashboard {
-      disabled = false
-    }
-  }
+//  addons_config {
+//    istio_config {
+//      disabled = false
+//    }
+//
+//    kubernetes_dashboard {
+//      disabled = false
+//    }
+//  }
 
   logging_service = "none"
 
@@ -55,11 +55,14 @@ resource "null_resource" "apply" {
     command = <<EOF
       gcloud beta container clusters get-credentials ${google_container_cluster.primary.name} --region ${google_container_cluster.primary.region} --project ${google_container_cluster.primary.project}
       kubectl apply -f tiller-rbac.yaml
+      kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
       rm -rf ~/.helm
       helm init --service-account haduong
       cd istio
+      kubectl create namespace istio-system
       helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-      helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set grafana.enabled=true | kubectl apply -f -
+      ./../await.sh
+      helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
       kubectl apply -f services/node-grafana.yaml
       kubectl create namespace microservice
       kubectl label namespace microservice istio-injection=enabled

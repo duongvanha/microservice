@@ -49,6 +49,14 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 
 - https://medium.com/@zhaohuabing/which-one-is-the-right-choice-for-the-ingress-gateway-of-your-service-mesh-21a280d4a29c
 
+- https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+
+- https://stackoverflow.com/questions/54698875/gcloud-kubernetes-cluster-with-1-insufficient-cpu-error
+
+- https://www.digitalocean.com/community/tutorials/how-to-set-up-an-elasticsearch-fluentd-and-kibana-efk-logging-stack-on-kubernetes
+
+- https://mherman.org/blog/logging-in-kubernetes-with-elasticsearch-Kibana-fluentd/
+
 ## Todo
 
 - [ ] Grafana ( istio support )

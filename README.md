@@ -39,7 +39,7 @@ Some of them, as pilot, have a large impact in terms of memory and CPU, so it is
 Some cloud provider support `
 
 ## Notes branch
-- kube-adm-google
+- kube-adm-google
 Branch stores the writing setup process infra on google cloud (not use gke) using ansible + terraform
 
 

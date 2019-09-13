@@ -1,5 +1,5 @@
 variable "project" {
-  default = "microservices-250007"
+  default = "mythical-height-252821"
 }
 
 variable "region" {

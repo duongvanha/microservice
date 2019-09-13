@@ -1,5 +1,5 @@
 provider "google-beta" {
-  credentials = file("../env/microservices.json")
+  credentials = file("../env/microservice.json")
 
   project = var.project
   region = var.region
@@ -7,12 +7,12 @@ provider "google-beta" {
 
 }
 
-terraform {
-  backend "remote" {
-    organization = "microservices"
-
-    workspaces {
-      name = "Workspace1"
-    }
-  }
-}
+//terraform {
+//  backend "remote" {
+//    organization = "microservices"
+//
+//    workspaces {
+//      name = "microservice"
+//    }
+//  }
+//}

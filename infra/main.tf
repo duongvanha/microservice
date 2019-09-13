@@ -3,22 +3,30 @@ resource "google_container_cluster" "primary" {
   name = "my-gke-cluster"
   location = var.region
 
-  remove_default_node_pool = true
-  initial_node_count = 1
+  initial_node_count = 2
 
   network_policy {
     enabled = true
   }
 
-//  addons_config {
-//    istio_config {
-//      disabled = false
-//    }
-//
-//    kubernetes_dashboard {
-//      disabled = false
-//    }
-//  }
+  node_config {
+    preemptible = true
+    machine_type = "n1-standard-4"
+
+    metadata = {
+      disable-legacy-endpoints = "true"
+    }
+  }
+
+  //  addons_config {
+  //    istio_config {
+  //      disabled = false
+  //    }
+  //
+  //    kubernetes_dashboard {
+  //      disabled = false
+  //    }
+  //  }
 
   logging_service = "none"
 
@@ -26,28 +34,28 @@ resource "google_container_cluster" "primary" {
 
 }
 
-resource "google_container_node_pool" "node-1" {
-  project = var.project
-  name = "node-1"
-  location = var.region
-  cluster = google_container_cluster.primary.name
-  initial_node_count = 1
-
-  node_config {
-    preemptible = true
-    machine_type = "n1-standard-2"
-
-    metadata = {
-      disable-legacy-endpoints = "true"
-    }
-
-  }
-}
+//resource "google_container_node_pool" "node-1" {
+//  project = var.project
+//  name = "node-1"
+//  location = "us-central1"
+//  cluster = google_container_cluster.primary.name
+//  initial_node_count = 1
+//
+//  node_config {
+//    preemptible = true
+//    machine_type = "n1-standard-1"
+//
+//    metadata = {
+//      disable-legacy-endpoints = "true"
+//    }
+//
+//  }
+//}
 
 resource "null_resource" "apply" {
 
   depends_on = [
-    google_container_node_pool.node-1,
+    //    google_container_node_pool.node-1,
     google_container_cluster.primary
   ]
 

@@ -24,15 +24,15 @@ Write by go in src/tools
 
 ## Notes issue
 
-- Using same version openssl encrypt and decrypter
-- Kubeadm ( setup hosted kubernetes cluster not using gke because begin learning 😭)
+- Using the same version OpenSSL encrypt and decrypter
+- kubeadm ( setup hosted Kubernetes cluster not using gke because begin learning 😭)
 `https://github.com/kubernetes/kubeadm/issues/1390
 Instead of using --apiserver-advertise-address=publicIp use --apiserver-cert-extra-sans=publicIp
-Don't forget to replace the private ip for the public ip in your .kube/config if you use kubectl from remote.`
+Don't forget to replace the private IP for the public IP in your .kube/config if you use kubectl from remote.`
 
 - Istio require memory and CPU
 `As per "https://docs.giantswarm.io/guides/deploying-istio/"
-Some of them, as pilot, have a large impact in terms of memory and CPU, so it is recommended to have around 8GB of memory and 4 CPUs free in your cluster. Obviously, all components have requested resources defined, so if you don’t have enough capacity you will see pods not starting.`
+Some of them, as the pilot, have a large impact in terms of memory and CPU, so it is recommended to have around 8GB of memory and 4 CPUs free in your cluster. Obviously, all components have requested resources defined, so if you don’t have enough capacity you will see pods not starting.`
 
 - Istio gateway
 `https://istio.io/docs/tasks/traffic-management/ingress/ingress-control/#determining-the-ingress-ip-and-ports"

@@ -16,11 +16,14 @@ Write by go in src/tools
 - Gen config cicd ( buddy.works ) for service `tools buddy`
 
 - Gen value helm chart for service ( helm upgrade )
-`cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.tag=latest ../../../infra/charts --namespace microservice`
+```sh
+cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.tag=latest ../../../infra/charts --namespace microservice`
+```
 
-- Gen gateway-route for all service ( kubectl apply )
-`kubectl -n microservice apply -f infra/services/gateway.yaml`
-
+- Apply gateway-route for all service ( kubectl apply )
+```sh
+kubectl -n microservice apply -f infra/services/gateway.yaml
+```
 
 ## Notes issue
 

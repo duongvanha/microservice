@@ -57,12 +57,14 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 
 - https://mherman.org/blog/logging-in-kubernetes-with-elasticsearch-Kibana-fluentd/
 
+- https://www.cockroachlabs.com/docs/stable/orchestrate-cockroachdb-with-kubernetes.html#hosted-gke
+
 ## Todo
 - [x] istio gateway
 - [x] Grafana ( istio support )
 - [x] Prometheus
 - [x] Setup elk ( log service )
-- [ ] Setup CockroachDB ( test HA )
+- [x] Setup CockroachDB ( test HA )
 - [ ] Setup kafka
 - [ ] Tools gen istio-gateway ( route for all services )
 - [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )

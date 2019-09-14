@@ -71,6 +71,7 @@ resource "null_resource" "apply" {
       helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
       ./../await.sh
       helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
+      helm install --name my-release --set Secure.Enabled=true stable/cockroachdb
       kubectl apply -f ./../services/node-grafana.yaml
       kubectl apply -f ./../services/elk
       kubectl create namespace microservice

@@ -3,7 +3,7 @@ resource "google_container_cluster" "primary" {
   name = "my-gke-cluster"
   location = var.region
 
-  initial_node_count = 2
+  initial_node_count = 1
 
   network_policy {
     enabled = true
@@ -71,7 +71,8 @@ resource "null_resource" "apply" {
       helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
       ./../await.sh
       helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
-      kubectl apply -f services/node-grafana.yaml
+      kubectl apply -f ./../services/node-grafana.yaml
+      kubectl apply -f ./../services/elk
       kubectl create namespace microservice
       kubectl label namespace microservice istio-injection=enabled
     EOF

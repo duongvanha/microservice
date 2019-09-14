@@ -58,13 +58,13 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 - https://mherman.org/blog/logging-in-kubernetes-with-elasticsearch-Kibana-fluentd/
 
 ## Todo
-
-- [ ] Grafana ( istio support )
-- [ ] Prometheus
-- [ ] Move to aws if have money
-- [ ] Tools gen istio-gateway ( route for all services )
-- [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )
-- [ ] Setup elk ( log service )
+- [x] istio gateway
+- [x] Grafana ( istio support )
+- [x] Prometheus
+- [x] Setup elk ( log service )
 - [ ] Setup CockroachDB ( test HA )
 - [ ] Setup kafka
+- [ ] Tools gen istio-gateway ( route for all services )
+- [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )
+- [ ] Move to aws if have money
 - [ ] More

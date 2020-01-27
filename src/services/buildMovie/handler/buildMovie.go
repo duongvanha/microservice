@@ -2,7 +2,7 @@ package handler
 
 import (
 	"context"
-	micro_models "microservice/src/pkg/models"
+	micro_models "microservice/pkg/models"
 
 	"github.com/micro/go-micro/util/log"
 )

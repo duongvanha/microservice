@@ -3,10 +3,10 @@ package main
 import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
-	"microservice/src/services/buildMovie/handler"
-	"microservice/src/services/buildMovie/subscriber"
+	"microservice/services/buildMovie/handler"
+	"microservice/services/buildMovie/subscriber"
 
-	movieRepository "microservice/src/pkg/services"
+	movieRepository "microservice/pkg/services"
 )
 
 func main() {

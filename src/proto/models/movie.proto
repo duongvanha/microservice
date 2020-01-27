@@ -1,6 +1,8 @@
 syntax = "proto3";
 package micro.models;
 
+option go_package = "microservice/pkg/models";
+
 message Movie {
     int64 id = 1;
     string contact_id = 2;

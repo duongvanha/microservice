@@ -1,0 +1,16 @@
+syntax = "proto3";
+package micro.models;
+
+message Movie {
+    int64 id = 1;
+    string contact_id = 2;
+    string tags = 3;
+    int64 status = 4;
+    int64 source = 5;
+    int64 ticket_created_at = 6;
+    int64 ticket_updated_at = 7;
+    int64 created_at = 8;
+    int64 updated_at = 9;
+    string app_code = 10;
+    string platform = 11;
+}

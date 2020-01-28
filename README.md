@@ -16,12 +16,17 @@ Write by go in src/tools
 - Gen config cicd ( buddy.works ) for service `tools buddy`
 
 - Gen value helm chart for service ( helm upgrade )
-```sh
+```shell script
 cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.tag=latest ../../../infra/charts --namespace microservice`
 ```
 
+-- Gen proto
+```shell script
+protoc --proto_path=.:$GOPATH/src --go_out=plugins=micro:../pkg/ --micro_out=../pkg/ services/movieRepository.proto
+```
+
 - Apply gateway-route for all service ( kubectl apply )
-```sh
+```shell script
 kubectl -n microservice apply -f infra/services/gateway.yaml
 ```
 

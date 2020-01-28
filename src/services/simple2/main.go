@@ -1,30 +1,21 @@
 package main
 
 import (
-	"github.com/gorilla/mux"
-	"log"
-	"net/http"
+	"context"
+	"github.com/micro/go-micro"
+	micro_models "microservice/pkg/models"
+	MovieRepository "microservice/pkg/services"
 )
 
 func main() {
 
-	r := mux.NewRouter()
+	service := micro.NewService(micro.Name("shippy.service.consignment"))
 
-	r.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-		_, _ = writer.Write([]byte("hello word"))
-	})
+	client := service.Client()
 
-	http.Handle("/", r)
+	movieRepository := MovieRepository.NewMovieRepositoryService("shippy.service.consignment", client)
 
-	port := "8080"
+	movie, err := movieRepository.Create(context.TODO(), &micro_models.Movie{Id: 1})
 
-	log.Println("Starting HTTP service at " + port)
-
-	err := http.ListenAndServe(":"+port, nil)
-
-	if err != nil {
-		log.Println("An error occured starting HTTP listener at port " + port)
-		log.Println("Error: " + err.Error())
-	}
-
+	println(movie, err)
 }

@@ -3,16 +3,15 @@ package main
 import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/util/log"
+	movieRepository "microservice/pkg/services"
 	"microservice/services/buildMovie/handler"
 	"microservice/services/buildMovie/subscriber"
-
-	movieRepository "microservice/pkg/services"
 )
 
 func main() {
 	// New Service
 	service := micro.NewService(
-		micro.Name("ha.duong.srv.buildMovie"),
+		micro.Name("shippy.service.consignment"),
 		micro.Version("latest"),
 	)
 
@@ -23,10 +22,10 @@ func main() {
 	_ = movieRepository.RegisterMovieRepositoryHandler(service.Server(), new(handler.BuildMovie))
 
 	// Register Struct as Subscriber
-	_ = micro.RegisterSubscriber("ha.duong.srv.buildMovie", service.Server(), new(subscriber.BuildMovie))
+	_ = micro.RegisterSubscriber("shippy.service.consignment", service.Server(), new(subscriber.BuildMovie))
 
 	// Register Function as Subscriber
-	_ = micro.RegisterSubscriber("ha.duong.srv.buildMovie", service.Server(), subscriber.Handler)
+	_ = micro.RegisterSubscriber("shippy.service.consignment", service.Server(), subscriber.Handler)
 
 	// Run service
 	if err := service.Run(); err != nil {

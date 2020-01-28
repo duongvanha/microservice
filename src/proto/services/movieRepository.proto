@@ -4,5 +4,6 @@ package micro.services;
 import "models/movie.proto";
 
 service MovieRepository {
-    rpc create(micro.models.Movie) returns (micro.models.Movie);
+    rpc Create (micro.models.Movie) returns (micro.models.Movie) {
+    }
 }

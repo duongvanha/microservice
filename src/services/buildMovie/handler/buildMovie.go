@@ -12,5 +12,6 @@ type BuildMovie struct{}
 func (e *BuildMovie) Create(ctx context.Context, req *micro_models.Movie, rsp *micro_models.Movie) error {
 	log.Log("Received BuildMovie.Call request")
 
+	rsp.Id = 12312
 	return nil
 }

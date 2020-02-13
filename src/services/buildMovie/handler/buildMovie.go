@@ -4,7 +4,7 @@ import (
 	"context"
 	micro_models "microservice/pkg/models"
 
-	"github.com/micro/go-micro/util/log"
+	"github.com/micro/go-micro/v2/util/log"
 )
 
 type BuildMovie struct{}

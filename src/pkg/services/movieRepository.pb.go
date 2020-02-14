@@ -7,13 +7,7 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
-	models "microservice/src/pkg/models"
-)
-
-import (
-	client "github.com/micro/go-micro/client"
-	server "github.com/micro/go-micro/server"
-	context "golang.org/x/net/context"
+	_ "microservice/src/pkg/models"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -39,61 +33,4 @@ var fileDescriptor_925834d431fad026 = []byte{
 	0x2a, 0x24, 0xac, 0x07, 0x31, 0x01, 0xa2, 0x4f, 0x0f, 0xac, 0x50, 0x0a, 0x9b, 0xa0, 0x12, 0x43,
 	0x12, 0x1b, 0xd8, 0x3c, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x81, 0xc3, 0x35, 0x1a, 0x95,
 	0x00, 0x00, 0x00,
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ client.Option
-var _ server.Option
-
-// Client API for MovieRepository service
-
-type MovieRepositoryClient interface {
-	Create(ctx context.Context, in *models.Movie, opts ...client.CallOption) (*models.Movie, error)
-}
-
-type movieRepositoryClient struct {
-	c           client.Client
-	serviceName string
-}
-
-func NewMovieRepositoryClient(serviceName string, c client.Client) MovieRepositoryClient {
-	if c == nil {
-		c = client.NewClient()
-	}
-	if len(serviceName) == 0 {
-		serviceName = "micro.services"
-	}
-	return &movieRepositoryClient{
-		c:           c,
-		serviceName: serviceName,
-	}
-}
-
-func (c *movieRepositoryClient) Create(ctx context.Context, in *models.Movie, opts ...client.CallOption) (*models.Movie, error) {
-	req := c.c.NewRequest(c.serviceName, "MovieRepository.Create", in)
-	out := new(models.Movie)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for MovieRepository service
-
-type MovieRepositoryHandler interface {
-	Create(context.Context, *models.Movie, *models.Movie) error
-}
-
-func RegisterMovieRepositoryHandler(s server.Server, hdlr MovieRepositoryHandler, opts ...server.HandlerOption) {
-	s.Handle(s.NewHandler(&MovieRepository{hdlr}, opts...))
-}
-
-type MovieRepository struct {
-	MovieRepositoryHandler
-}
-
-func (h *MovieRepository) Create(ctx context.Context, in *models.Movie, out *models.Movie) error {
-	return h.MovieRepositoryHandler.Create(ctx, in, out)
 }

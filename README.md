@@ -22,7 +22,8 @@ cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.t
 
 -- Gen proto
 ```shell script
-protoc --proto_path=.:$GOPATH/src --go_out=plugins=micro:../pkg/ --micro_out=../pkg/ services/movieRepository.proto
+protoc --proto_path=$GOPATH/src:. --micro_out=../../.. --go_out=../../.. models/*.proto
+protoc --proto_path=$GOPATH/src:. --micro_out=../pkg/ --go_out=../pkg/ services/*.proto 
 ```
 
 - Apply gateway-route for all service ( kubectl apply )

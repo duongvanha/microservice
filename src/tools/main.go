@@ -1,7 +1,7 @@
 package main
 
 import (
-	"microservice/srctools/cmd"
+	"microservice/src/tools/cmd"
 )
 
 func main() {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/v2"
 	micro_models "microservice/src/pkg/models"
 	MovieRepository "microservice/src/pkg/services"
 )

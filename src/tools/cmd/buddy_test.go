@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	. "github.com/duongvanha/microservice/src/tools/obj"
 	"log"
+	. "microservice/tools/obj"
 	"os"
 	"testing"
 

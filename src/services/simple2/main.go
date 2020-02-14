@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/micro/go-micro/v2"
-	micro_models "microservice/pkg/models"
-	MovieRepository "microservice/pkg/services"
+	"github.com/micro/go-micro"
+	micro_models "microservice/src/pkg/models"
+	MovieRepository "microservice/src/pkg/services"
 )
 
 func main() {

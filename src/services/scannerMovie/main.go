@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/util/log"
-	micro_models "microservice/pkg/models"
+	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/util/log"
+	micro_models "microservice/src/pkg/models"
 	"time"
 )
 

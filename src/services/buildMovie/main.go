@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
-	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/util/log"
-	micro_models "microservice/pkg/models"
-	micro_services "microservice/pkg/services"
-	"microservice/services/buildMovie/handler"
-	"microservice/services/buildMovie/subscriber"
+	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/util/log"
+	micro_models "microservice/src/pkg/models"
+	micro_services "microservice/src/pkg/services"
+	"microservice/srcservices/buildMovie/handler"
+	"microservice/srcservices/buildMovie/subscriber"
 	"time"
 )
 

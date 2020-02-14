@@ -2,9 +2,9 @@ package handler
 
 import (
 	"context"
-	micro_models "microservice/pkg/models"
+	micro_models "microservice/src/pkg/models"
 
-	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-micro/util/log"
 )
 
 type BuildMovie struct{}

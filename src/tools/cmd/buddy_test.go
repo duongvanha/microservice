@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"log"
-	. "microservice/tools/obj"
+	. "microservice/srctools/obj"
 	"os"
 	"testing"
 

@@ -1,6 +1,6 @@
 package rabbitmq
 
-import "microservice/pkg/broker"
+import "microservice/src/pkg/broker"
 
 type RBroker struct {
 }

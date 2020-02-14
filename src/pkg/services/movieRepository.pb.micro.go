@@ -7,13 +7,13 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
-	models "microservice/pkg/models"
+	models "microservice/src/pkg/models"
 )
 
 import (
 	context "context"
-	client "github.com/micro/go-micro/v2/client"
-	server "github.com/micro/go-micro/v2/server"
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -44,6 +44,12 @@ type movieRepositoryService struct {
 }
 
 func NewMovieRepositoryService(name string, c client.Client) MovieRepositoryService {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(name) == 0 {
+		name = "micro.services"
+	}
 	return &movieRepositoryService{
 		c:    c,
 		name: name,

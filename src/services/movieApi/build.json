@@ -1,0 +1,10 @@
+{
+  "dir": "node1",
+  "lang": "node",
+  "name": "blademaster996/node1",
+  "type": "api",
+  "route": {
+    "path": "/demo",
+    "port": 3000
+  }
+}

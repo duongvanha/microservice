@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
-	models "microservice/src/pkg/models"
+	models "microservice/src/gopkg/models"
 )
 
 import (

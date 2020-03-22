@@ -7,7 +7,7 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
-	_ "microservice/src/pkg/models"
+	_ "microservice/src/gopkg/models"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

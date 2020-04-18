@@ -2,7 +2,7 @@ package subscriber
 
 import (
 	"context"
-	micro_models "microservice/src/pkg/models"
+	micro_models "microservice/src/gopkg/models"
 )
 
 type BuildMovie struct{}

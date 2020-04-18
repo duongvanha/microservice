@@ -4,10 +4,9 @@ import (
 	"context"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/util/log"
-	micro_models "microservice/src/pkg/models"
-	micro_services "microservice/src/pkg/services"
+	micro_models "microservice/src/gopkg/models"
+	micro_services "microservice/src/gopkg/services"
 	"microservice/src/services/buildMovie/handler"
-	"microservice/src/services/buildMovie/subscriber"
 	"time"
 )
 
@@ -33,26 +32,28 @@ func main() {
 		micro.Version("latest"),
 	)
 
+	service.Client()
+
 	// Initialise service
 	service.Init()
 
 	// Register Handler
 	_ = micro_services.RegisterMovieRepositoryHandler(service.Server(), new(handler.BuildMovie))
 
-	go func() {
-		// Register Struct as Subscriber
-		e2 := micro.RegisterSubscriber("shippy.cli.consignment", service.Server(), new(subscriber.BuildMovie))
+	//go func() {
+	//	// Register Struct as Subscriber
+	//	e2 := micro.RegisterSubscriber("shippy.cli.consignment", service.Server(), new(subscriber.BuildMovie))
+	//
+	//	// Register Function as Subscriber
+	//	e3 := micro.RegisterSubscriber("shippy.cli.consignment", service.Server(), subscriber.Handler)
+	//
+	//	println(e2, e3)
+	//}()
 
-		// Register Function as Subscriber
-		e3 := micro.RegisterSubscriber("shippy.cli.consignment", service.Server(), subscriber.Handler)
-
-		println(e2, e3)
-	}()
-
-	pub1 := micro.NewEvent("shippy.cli.consignment", service.Client())
-
-	// pub to topic 1
-	go sendEv("shippy.cli.consignment", pub1)
+	//pub1 := micro.NewEvent("shippy.cli.consignment", service.Client())
+	//
+	//// pub to topic 1
+	//go sendEv("shippy.cli.consignment", pub1)
 
 	// Run service
 	if err := service.Run(); err != nil {

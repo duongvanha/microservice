@@ -46,7 +46,6 @@ func NewHTTPApp() web.Service {
 	return web.NewService(
 		web.Name(app.name),
 		web.Address(app.port),
-		web.Registry(getRegistry()),
 	)
 
 }

@@ -23,7 +23,7 @@ cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.t
 -- Gen proto
 ```shell script
 cd $GOPATH/src/microservice/src/proto
-protoc --proto_path=$GOPATH/src:. --micro_out=../pkg/ --go_out=../pkg/ services/*.proto 
+protoc --proto_path=$GOPATH/src:. --micro_out=../gopkg/ --go_out=../gopkg/ services/*.proto 
 protoc --proto_path=$GOPATH/src:. --micro_out=../../.. --go_out=../../.. models/*.proto
 ```
 

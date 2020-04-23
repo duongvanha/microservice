@@ -40,8 +40,8 @@ func NewHTTPApp() web.Service {
 	app := MicroApp{}
 
 	// flags for http
-	flag.StringVar(&app.port, "http-host", ":3001", "HTTP listen host")
-	flag.StringVar(&app.name, "app-name", "demo-api", "App Name")
+	flag.StringVar(&app.port, "http-host", ":3000", "HTTP listen host")
+	flag.StringVar(&app.name, "app-name", "shippy.service.api", "App Name")
 
 	return web.NewService(
 		web.Name(app.name),

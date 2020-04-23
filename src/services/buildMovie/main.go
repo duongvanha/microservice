@@ -3,7 +3,10 @@ package main
 import (
 	"context"
 	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/broker"
+	"github.com/micro/go-micro/v2/config/cmd"
 	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-plugins/broker/rabbitmq/v2"
 	micro_models "microservice/src/gopkg/models"
 	micro_services "microservice/src/gopkg/services"
 	"microservice/src/services/buildMovie/handler"
@@ -25,6 +28,16 @@ func sendEv(topic string, p micro.Publisher) {
 	}
 }
 
+func sub(broker2 broker.Broker) {
+	_, err := broker2.Subscribe("capture_additional_charge", func(p broker.Event) error {
+		log.Infof("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
+		return nil
+	}, broker.Queue("order_capture_additional_charge"))
+	if err != nil {
+		log.Error("error", err)
+	}
+}
+
 func main() {
 	// New Service
 	service := micro.NewService(
@@ -37,8 +50,29 @@ func main() {
 	// Initialise service
 	service.Init()
 
+	defaultBroker := rabbitmq.NewBroker()
+
+	if err := cmd.Init(); err != nil {
+		log.Fatalf("Cmd Init error: %v", err)
+	}
+
+	if err := defaultBroker.Init(
+		broker.Addrs("amqp://bkgo:bkgopass@rabbitmq:5672/vhost"),
+		rabbitmq.ExchangeName("post_order_processor"),
+	); err != nil {
+		log.Fatalf("Broker Init error: %v", err)
+	}
+
+	if err := defaultBroker.Connect(); err != nil {
+		log.Fatalf("Broker Connect error: %v", err)
+	}
+
 	// Register Handler
-	_ = micro_services.RegisterMovieRepositoryHandler(service.Server(), new(handler.BuildMovie))
+	_ = micro_services.RegisterMovieRepositoryHandler(service.Server(), &handler.BuildMovie{
+		Broker: defaultBroker,
+	})
+
+	go sub(defaultBroker)
 
 	//go func() {
 	//	// Register Struct as Subscriber

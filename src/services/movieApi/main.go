@@ -6,6 +6,7 @@ import (
 	"github.com/micro/go-micro/v2/client/selector"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-plugins/wrapper/select/roundrobin/v2"
 	"math/rand"
 	micro_app "microservice/src/gopkg/core/microApp"
 	"microservice/src/gopkg/core/transport/transhttp"
@@ -78,9 +79,7 @@ func main() {
 	consignmentService := micro.NewService(
 		micro.Name("shippy.service.consignment"),
 		micro.Version("latest"),
-		micro.Selector(selector.NewSelector(
-			selector.SetStrategy(RoundRobin()),
-		)),
+		micro.WrapClient(roundrobin.NewClientWrapper()),
 	)
 
 	handler := handler{

@@ -1,6 +1,6 @@
 resource "google_container_cluster" "primary" {
   provider = "google-beta"
-  name = "my-gke-cluster"
+  name = var.name_cluster
   location = var.region
 
   initial_node_count = 1
@@ -61,21 +61,12 @@ resource "null_resource" "apply" {
 
   provisioner "local-exec" {
     command = <<EOF
-      gcloud beta container clusters get-credentials ${google_container_cluster.primary.name} --region ${google_container_cluster.primary.region} --project ${google_container_cluster.primary.project}
+      gcloud beta container clusters get-credentials ${google_container_cluster.primary.name} --region ${google_container_cluster.primary.location} --project ${google_container_cluster.primary.project}
       kubectl apply -f tiller-rbac.yaml
       kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
       rm -rf ~/.helm
       helm init --service-account haduong
-      cd istio
-      kubectl create namespace istio-system
-      helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-      ./../await.sh
-      helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
-      helm install --name my-release --set Secure.Enabled=true stable/cockroachdb
-      kubectl apply -f ./../services/node-grafana.yaml
       kubectl apply -f ./../services/elk
-      kubectl create namespace microservice
-      kubectl label namespace microservice istio-injection=enabled
     EOF
   }
 }

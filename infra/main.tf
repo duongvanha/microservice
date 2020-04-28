@@ -66,7 +66,8 @@ resource "null_resource" "apply" {
       kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
       rm -rf ~/.helm
       helm init --service-account haduong
-      kubectl apply -f ./../services/elk
+      helm install nginx-ingress stable/nginx-ingress --namespace=kube-logging --set controller.publishService.enabled=true
+      kubectl apply -f ./services/elk
     EOF
   }
 }

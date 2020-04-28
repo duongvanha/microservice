@@ -8,11 +8,11 @@ metadata:
 spec:
   selector:
     app: kibana
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 5601
       name: http
-      targetPort: 80
+      targetPort: 5601
 
 ---
 apiVersion: apps/v1

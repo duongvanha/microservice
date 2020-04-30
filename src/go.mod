@@ -10,6 +10,7 @@ require (
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/micro/go-micro/v2 v2.5.0
 	github.com/micro/go-plugins/broker/rabbitmq/v2 v2.5.0 // indirect
+	github.com/micro/go-plugins/registry/consul/v2 v2.5.0
 	github.com/micro/go-plugins/wrapper/select/roundrobin/v2 v2.5.0 // indirect
 	github.com/micro/mdns v0.3.0 // indirect
 	github.com/spf13/afero v1.1.2

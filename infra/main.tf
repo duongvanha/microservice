@@ -11,7 +11,7 @@ resource "google_container_cluster" "primary" {
 
   node_config {
     preemptible = true
-    machine_type = "n1-standard-4"
+    machine_type = "n1-standard-1"
 
     metadata = {
       disable-legacy-endpoints = "true"
@@ -65,9 +65,9 @@ resource "null_resource" "apply" {
       kubectl apply -f tiller-rbac.yaml
       kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
       rm -rf ~/.helm
-      helm init --service-account haduong
       kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.31.1/deploy/static/provider/cloud/deploy.yaml
       kubectl apply -f ./services/elk
+      kubectl apply -f ./services/ingress.yaml
     EOF
   }
 }

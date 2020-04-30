@@ -1,12 +1,13 @@
-FROM golang:1.10.3 as builder
+FROM golang:1.13.3 as builder
 
-ENV DIR /simple
-COPY . /go/src/service
-WORKDIR /go/src/service
+ARG dir
+ENV GO111MODULE=on
 
-RUN go get -u github.com/golang/dep/cmd/dep
-RUN dep ensure
-RUN go build -o /service
+COPY . /go/src/
+RUN cd /go/src/ && go mod download
+WORKDIR /go/src/${dir}
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /service
 
 FROM alpine:3.7
 COPY --from=builder /service /

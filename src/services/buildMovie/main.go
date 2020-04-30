@@ -7,6 +7,7 @@ import (
 	"github.com/micro/go-micro/v2/config/cmd"
 	"github.com/micro/go-micro/v2/util/log"
 	"github.com/micro/go-plugins/broker/rabbitmq/v2"
+	micro_app "microservice/src/gopkg/core/microApp"
 	micro_models "microservice/src/gopkg/models"
 	micro_services "microservice/src/gopkg/services"
 	"microservice/src/services/buildMovie/handler"
@@ -40,8 +41,8 @@ func sub(broker2 broker.Broker) {
 
 func main() {
 	// New Service
-	service := micro.NewService(
-		micro.Name("shippy.service.consignment"),
+	service := micro_app.NewService(
+		micro.Name("go.haduong.service.build_movie"),
 		micro.Version("latest"),
 	)
 

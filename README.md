@@ -17,7 +17,7 @@ Write by go in src/tools
 
 - Gen value helm chart for service ( helm upgrade )
 ```shell script
-cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.tag=latest ../../../infra/charts --namespace microservice`
+cd {{service}} && helm upgrade --install -f values.yaml {{service-name}} ../../../infra/microservices`
 ```
 
 -- Gen proto

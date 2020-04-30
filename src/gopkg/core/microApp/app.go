@@ -2,6 +2,7 @@ package micro_app
 
 import (
 	"flag"
+	consulAPi "github.com/hashicorp/consul/api"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/web"
@@ -14,7 +15,11 @@ type MicroApp struct {
 }
 
 func init() {
-	registry.DefaultRegistry = consul.NewRegistry()
+	config := consulAPi.DefaultConfig()
+	config.Address = "consul-service:8500"
+	registry.DefaultRegistry = consul.NewRegistry(
+		consul.Config(config),
+	)
 }
 
 // NewService returns a new go-micro service pre-initialised for k8s

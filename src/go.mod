@@ -7,6 +7,7 @@ require (
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/golang/protobuf v1.3.5
 	github.com/gorilla/mux v1.7.4
+	github.com/hashicorp/consul/api v1.3.0
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/micro/go-micro/v2 v2.5.0
 	github.com/micro/go-plugins/broker/rabbitmq/v2 v2.5.0 // indirect

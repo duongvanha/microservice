@@ -27,6 +27,13 @@ protoc --proto_path=$GOPATH/src:. --micro_out=../gopkg/ --go_out=../gopkg/ servi
 protoc --proto_path=$GOPATH/src:. --micro_out=../../.. --go_out=../../.. models/*.proto
 ```
 
+-- build docker
+```shell script
+cd ~/go/src/microservice/src
+docker build . -f docker/go.dockerfile --no-cache --build-arg dir=${dir_service} -t ${name_service}:${tag}
+#docker build . -f docker/go.dockerfile --no-cache --build-arg dir=services/buildMovie -t blademaster996/go.haduong.api.movie:1
+```
+
 - Apply gateway-route for all service ( kubectl apply )
 ```shell script
 kubectl -n microservice apply -f infra/services/gateway.yaml

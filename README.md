@@ -34,6 +34,14 @@ docker build . -f docker/go.dockerfile --no-cache --build-arg dir=${dir_service}
 #docker build . -f docker/go.dockerfile --no-cache --build-arg dir=services/buildMovie -t blademaster996/go.haduong.api.movie:1
 ```
 
+-- tunnel deployment
+```shell script
+# run script command
+micro tunnel --server=${ip}:${port}
+#run service local with env MICRO_PROXY=go.micro.tunnel
+MICRO_PROXY=go.micro.tunnel go run main.go
+```
+
 - Apply gateway-route for all service ( kubectl apply )
 ```shell script
 kubectl -n microservice apply -f infra/services/gateway.yaml

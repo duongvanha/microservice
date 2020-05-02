@@ -46,6 +46,7 @@ func NewWebApp(opts ...web.Option) web.Service {
 		web.Address(app.port),
 	}
 
+	// append user options
 	options = append(options, opts...)
 
 	// return new service

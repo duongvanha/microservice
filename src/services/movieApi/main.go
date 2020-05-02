@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/util/log"
-	"github.com/micro/go-plugins/wrapper/select/roundrobin/v2"
 	micro_app "microservice/src/gopkg/core/microApp"
 	"microservice/src/gopkg/core/transport/transhttp"
 	micro_models "microservice/src/gopkg/models"
@@ -33,7 +32,7 @@ func (h handler) helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
-		log.Infof("error", err)
+		log.Error("error", err)
 	} else {
 		transhttp.RespondJSON(w, http.StatusOK, res)
 	}
@@ -44,11 +43,7 @@ func main() {
 
 	service := micro_app.NewWebApp()
 
-	consignmentService := micro_app.NewService(
-		micro.Name("go.haduong.service.build_movie"),
-		micro.Version("latest"),
-		micro.WrapClient(roundrobin.NewClientWrapper()),
-	)
+	consignmentService := micro_app.NewService(micro.Name("go.haduong.service.build_movie"))
 
 	handler := handler{
 		Client: MovieRepository.NewMovieRepositoryService("go.haduong.service.build_movie", consignmentService.Client()),

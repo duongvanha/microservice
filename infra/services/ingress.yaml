@@ -1,16 +1,27 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  namespace: kube-logging
-  name: elk-ingress
+  name: ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: elk.sanlovie.com
+#    - host: config.sanlovie.com
+#      http:
+#        paths:
+#          - backend:
+#              serviceName: consul
+#              servicePort: 8500
+    - host: tunnel.sanlovie.com
       http:
         paths:
           - backend:
-              serviceName: kibana-service
-              servicePort: 5601
+              serviceName: micro-tunnel
+              servicePort: 30036
+#    - host: api.sanlovie.com
+#      http:
+#        paths:
+#          - backend:
+#              serviceName: movie-api-microservices
+#              servicePort: 3000

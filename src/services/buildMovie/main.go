@@ -41,10 +41,7 @@ func sub(broker2 broker.Broker) {
 
 func main() {
 	// New Service
-	service := micro_app.NewService(
-		micro.Name("go.haduong.service.build_movie"),
-		micro.Version("latest"),
-	)
+	service := micro_app.NewService(micro.Name("go.haduong.service.build_movie"))
 
 	service.Client()
 
@@ -73,7 +70,7 @@ func main() {
 		Broker: defaultBroker,
 	})
 
-	go sub(defaultBroker)
+	//go sub(defaultBroker)
 
 	//go func() {
 	//	// Register Struct as Subscriber

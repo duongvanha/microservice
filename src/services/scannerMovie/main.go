@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/util/log"
-	micro_models "microservice/src/pkg/models"
+	micro_models "microservice/src/gopkg/models"
 	"time"
 )
 

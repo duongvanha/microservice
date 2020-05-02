@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: blademaster996/go.haduong.build.movie
   pullPolicy: IfNotPresent
-  tag: "1"
+  tag: "4"
 
 imagePullSecrets: []
 nameOverride: ""

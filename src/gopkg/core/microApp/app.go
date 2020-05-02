@@ -2,11 +2,9 @@ package micro_app
 
 import (
 	"flag"
-	consulAPi "github.com/hashicorp/consul/api"
 	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/registry"
 	"github.com/micro/go-micro/v2/web"
-	"github.com/micro/go-plugins/registry/consul/v2"
+	"github.com/micro/go-plugins/wrapper/select/roundrobin/v2"
 )
 
 type MicroApp struct {
@@ -14,20 +12,13 @@ type MicroApp struct {
 	port string
 }
 
-func init() {
-	config := consulAPi.DefaultConfig()
-	config.Address = "consul-service:8500"
-	registry.DefaultRegistry = consul.NewRegistry(
-		consul.Config(config),
-	)
-}
-
 // NewService returns a new go-micro service pre-initialised for k8s
 func NewService(opts ...micro.Option) micro.Service {
 
-	// set the registry and selector
+	// set default options
 	options := []micro.Option{
-		micro.Registry(registry.DefaultRegistry),
+		micro.Version("latest"),
+		micro.WrapClient(roundrobin.NewClientWrapper()),
 	}
 
 	// append user options
@@ -41,9 +32,7 @@ func NewService(opts ...micro.Option) micro.Service {
 func NewWebApp(opts ...web.Option) web.Service {
 
 	// create new service
-	service := micro.NewService(
-		micro.Registry(registry.DefaultRegistry),
-	)
+	service := micro.NewService()
 	app := MicroApp{}
 
 	// flags for http

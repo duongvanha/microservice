@@ -62,12 +62,10 @@ resource "null_resource" "apply" {
   provisioner "local-exec" {
     command = <<EOF
       gcloud beta container clusters get-credentials ${google_container_cluster.primary.name} --region ${google_container_cluster.primary.location} --project ${google_container_cluster.primary.project}
-      kubectl apply -f tiller-rbac.yaml
-      kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
-      rm -rf ~/.helm
+      helm install etcd --set customResources.createEtcdClusterCRD=true stable/etcd-operator
       kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.31.1/deploy/static/provider/cloud/deploy.yaml
-      kubectl apply -f ./services/elk
-      kubectl apply -f ./services/ingress.yaml
+//      kubectl apply -f ./services/elk
+//      kubectl apply -f ./services/ingress.yaml
     EOF
   }
 }

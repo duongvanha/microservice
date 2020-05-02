@@ -88,13 +88,13 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 
 ## Todo infra
 - [x] istio gateway
-- [x] Grafana ( istio support )
+- [x] Grafana ( istio support ) -> remove isto, setup manual
 - [x] Prometheus
-- [x] Setup elk ( log service )
+- [x] Setup elk ( log service ) -> improve log error stacktrace
 - [x] Setup CockroachDB ( test HA )
 - [ ] Setup kafka
-- [ ] Service discovery for developments
-- [ ] Tools gen istio-gateway ( route for all services )
+- [x] Service discovery for developments
+- [ ] Tools gen istio-gateway ( route for all services ) -> remove istio using api gateway
 - [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )
 - [ ] Move to aws if have money
 - [ ] More

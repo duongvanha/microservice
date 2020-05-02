@@ -2,14 +2,26 @@ package micro_app
 
 import (
 	"flag"
+	"fmt"
 	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/logger"
 	"github.com/micro/go-micro/v2/web"
+	"github.com/micro/go-plugins/logger/zap/v2"
 	"github.com/micro/go-plugins/wrapper/select/roundrobin/v2"
 )
 
 type MicroApp struct {
 	name string
 	port string
+}
+
+func init() {
+	zapLogger, err := zap.NewLogger(zap.WithCallerSkip(2))
+	if err != nil {
+		panic(fmt.Sprintf("Cannot create logger with the following error: %s", err))
+	}
+
+	logger.DefaultLogger = zapLogger
 }
 
 // NewService returns a new go-micro service pre-initialised for k8s

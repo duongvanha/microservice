@@ -273,6 +273,8 @@ github.com/micro/go-micro/v2 v2.5.0 h1:FB+fizQiI/TgTyInK8m+SmIdwQXD3ZmhUF7zClpr6
 github.com/micro/go-micro/v2 v2.5.0/go.mod h1:qz2UT4UFdFVs+qUGMuDK3xuHgude1BgntqQ29sbpPlE=
 github.com/micro/go-plugins/broker/rabbitmq/v2 v2.5.0 h1:qvJL5mfZPOWiDHyFB4pZzQFXoN2CrELtiN30dooIf+k=
 github.com/micro/go-plugins/broker/rabbitmq/v2 v2.5.0/go.mod h1:M9fITwpoEICNB1Y0Vr0WArQvGJWuuZCtLt4Wub0TnzU=
+github.com/micro/go-plugins/logger/zap/v2 v2.5.0 h1:zIgs56vZ7g/RvL1l/m80u0/4hDWoM/mxvjxW/QoPvRk=
+github.com/micro/go-plugins/logger/zap/v2 v2.5.0/go.mod h1:yvx3khp8Qt02C0yZZPriigJkrQzvo/qL6xTmJc+js8E=
 github.com/micro/go-plugins/wrapper/select/roundrobin/v2 v2.5.0 h1:Gcro19tV/wwf0oJuso9HIVTQ3AYYT+N88gBIx0pGL3E=
 github.com/micro/go-plugins/wrapper/select/roundrobin/v2 v2.5.0/go.mod h1:ACX1PyHtLxRagzb6ERZ/X9JFFqneBkcoSXAa/zQ0D5I=
 github.com/miekg/dns v1.1.15/go.mod h1:W1PPwlIAgtquWBMBEV9nkV9Cazfe8ScdGz/Lj7v3Nrg=

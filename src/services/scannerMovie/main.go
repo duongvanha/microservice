@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-micro/v2/logger"
 	micro_models "microservice/src/gopkg/models"
 	"time"
 )
@@ -18,7 +18,7 @@ func sendEv(topic string, p micro.Publisher) {
 			Id: time.Now().Unix(),
 		}
 		if err := p.Publish(context.Background(), ev); err != nil {
-			log.Logf("error publishing: %v", err)
+			logger.Error("error publishing: %v", err)
 		}
 	}
 }

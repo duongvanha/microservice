@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"github.com/micro/go-micro/v2"
-	"github.com/micro/go-micro/v2/util/log"
+	"github.com/micro/go-micro/v2/logger"
 	micro_app "microservice/src/gopkg/core/microApp"
 	"microservice/src/gopkg/core/transport/transhttp"
 	micro_models "microservice/src/gopkg/models"
@@ -32,7 +32,7 @@ func (h handler) helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if err != nil {
-		log.Error("error", err)
+		logger.Error("error", err)
 	} else {
 		transhttp.RespondJSON(w, http.StatusOK, res)
 	}
@@ -51,12 +51,14 @@ func main() {
 
 	service.HandleFunc("/", handler.helloWorldHandler)
 
+	logger.Infof("service running")
+
 	if err := service.Init(); err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	if err := service.Run(); err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 }

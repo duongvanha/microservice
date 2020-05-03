@@ -94,6 +94,8 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 
 - https://www.cockroachlabs.com/docs/stable/orchestrate-cockroachdb-with-kubernetes.html#hosted-gke
 
+- https://sysdig.com/blog/kubernetes-monitoring-prometheus/
+
 - https://github.com/micro/development
 ## Todo infra
 - [x] istio gateway

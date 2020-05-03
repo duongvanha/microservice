@@ -42,6 +42,14 @@ micro tunnel --server=${ip}:${port}
 MICRO_PROXY=go.micro.tunnel go run main.go
 ```
 
+-- install prometheus
+```shell script
+kubectl create namespace monitoring
+helm install prometheus-operator stable/prometheus-operator --namespace monitoring
+kubectl apply -f services/monitor
+# get username and password grafana from configuration Secret 
+```
+
 - Apply gateway-route for all service ( kubectl apply )
 ```shell script
 kubectl -n microservice apply -f infra/services/gateway.yaml
@@ -89,8 +97,8 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 - https://github.com/micro/development
 ## Todo infra
 - [x] istio gateway
-- [x] Grafana ( istio support ) -> remove isto, setup manual
-- [x] Prometheus -> remove isto, setup manual
+- [x] Grafana ( helm )
+- [x] Prometheus
 - [x] Setup elk ( log service )
 - [x] Setup CockroachDB ( test HA )
 - [ ] Setup kafka

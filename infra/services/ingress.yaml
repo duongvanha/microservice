@@ -19,6 +19,12 @@ spec:
           - backend:
               serviceName: micro-tunnel
               servicePort: 30036
+    - host: grafana.sanlovie.com
+      http:
+        paths:
+          - backend:
+              serviceName: micro-tunnel
+              servicePort: 30036
 #    - host: api.sanlovie.com
 #      http:
 #        paths:

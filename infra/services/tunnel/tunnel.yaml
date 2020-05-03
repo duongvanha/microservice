@@ -6,12 +6,6 @@ metadata:
   labels:
     micro: runtime
     name: micro-tunnel
-  annotations:
-    name: "go.micro.tunnel"
-    version: "latest"
-    source: "github.com/micro/micro"
-    owner: "micro"
-    group: "micro"
 spec:
   replicas: 1
   selector:
@@ -33,7 +27,7 @@ spec:
               value: "etcd-cluster-client"
           args:
             - tunnel
-          image: micro/micro
+          image: micro/micro:v1.14.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8083

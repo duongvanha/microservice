@@ -90,8 +90,8 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 ## Todo infra
 - [x] istio gateway
 - [x] Grafana ( istio support ) -> remove isto, setup manual
-- [x] Prometheus
-- [x] Setup elk ( log service ) -> improve log error stacktrace
+- [x] Prometheus -> remove isto, setup manual
+- [x] Setup elk ( log service )
 - [x] Setup CockroachDB ( test HA )
 - [ ] Setup kafka
 - [x] Service discovery for developments

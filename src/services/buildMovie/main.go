@@ -4,9 +4,7 @@ import (
 	"context"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/broker"
-	"github.com/micro/go-micro/v2/config/cmd"
 	"github.com/micro/go-micro/v2/logger"
-	"github.com/micro/go-plugins/broker/rabbitmq/v2"
 	micro_app "microservice/src/gopkg/core/microApp"
 	micro_models "microservice/src/gopkg/models"
 	micro_services "microservice/src/gopkg/services"
@@ -48,21 +46,17 @@ func main() {
 	// Initialise service
 	service.Init()
 
-	defaultBroker := rabbitmq.NewBroker()
-
-	if err := cmd.Init(); err != nil {
-		logger.Fatalf("Cmd Init error: %v", err)
-	}
-
-	if err := defaultBroker.Init(
-		broker.Addrs("amqp://bkgo:bkgopass@rabbitmq:5672/vhost"),
-		rabbitmq.ExchangeName("post_order_processor"),
-	); err != nil {
+	defaultBroker, err := micro_app.GetBroker()
+	if err != nil {
 		logger.Fatalf("Broker Init error: %v", err)
 	}
 
-	if err := defaultBroker.Connect(); err != nil {
-		logger.Fatalf("Broker Connect error: %v", err)
+	_, err = defaultBroker.Subscribe("capture_additional_charge", func(p broker.Event) error {
+		logger.Infof("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
+		return nil
+	}, broker.Queue("order_capture_additional_charge"))
+	if err != nil {
+		logger.Error("error", err)
 	}
 
 	// Register Handler

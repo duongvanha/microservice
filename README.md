@@ -101,8 +101,9 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 - [x] Prometheus
 - [x] Setup elk ( log service )
 - [x] Setup CockroachDB ( test HA )
-- [ ] Setup kafka
 - [x] Service discovery for developments
+- [ ] Set up alert
+- [ ] Setup kafka
 - [ ] Tools gen istio-gateway ( route for all services ) -> remove istio using api gateway
 - [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )
 - [ ] Move to aws if have money

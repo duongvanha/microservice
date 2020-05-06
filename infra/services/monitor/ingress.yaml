@@ -8,9 +8,15 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: grafana.sanlovie.com
+    - host: grafana.sanlovie.tk
       http:
         paths:
           - backend:
               serviceName: prometheus-operator-grafana
               servicePort: 3000
+    - host: prometheus.sanlovie.tk
+      http:
+        paths:
+          - backend:
+              serviceName: prometheus-service
+              servicePort: 9090

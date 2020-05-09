@@ -18,5 +18,11 @@ spec:
       http:
         paths:
           - backend:
-              serviceName: prometheus-service
+              serviceName: prometheus-server
               servicePort: 9090
+    - host: alert.sanlovie.tk
+      http:
+        paths:
+          - backend:
+              serviceName: prometheus-alertmanager
+              servicePort: 9093

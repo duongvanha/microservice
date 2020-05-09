@@ -17,7 +17,7 @@ Write by go in src/tools
 
 - Gen value helm chart for service ( helm upgrade )
 ```shell script
-cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.tag=latest ../../../infra/charts --namespace microservice`
+cd {{service}} && helm upgrade --install -f values.yaml {{service-name}} ../../../infra/microservices`
 ```
 
 -- Gen proto
@@ -25,6 +25,29 @@ cd {{service}} && helm upgrade --install -f values.yaml {{service} --set image.t
 cd $GOPATH/src/microservice/src/proto
 protoc --proto_path=$GOPATH/src:. --micro_out=../gopkg/ --go_out=../gopkg/ services/*.proto 
 protoc --proto_path=$GOPATH/src:. --micro_out=../../.. --go_out=../../.. models/*.proto
+```
+
+-- build docker
+```shell script
+cd ~/go/src/microservice/src
+docker build . -f docker/go.dockerfile --no-cache --build-arg dir=${dir_service} -t ${name_service}:${tag}
+#docker build . -f docker/go.dockerfile --no-cache --build-arg dir=services/buildMovie -t blademaster996/go.haduong.api.movie:1
+```
+
+-- tunnel deployment
+```shell script
+# run script command
+micro tunnel --server=${ip}:${port}
+#run service local with env MICRO_PROXY=go.micro.tunnel
+MICRO_PROXY=go.micro.tunnel go run main.go
+```
+
+-- install prometheus
+```shell script
+kubectl create namespace monitoring
+helm install prometheus-operator stable/prometheus-operator --namespace monitoring
+kubectl apply -f services/monitor
+# get username and password grafana from configuration Secret 
 ```
 
 - Apply gateway-route for all service ( kubectl apply )
@@ -71,15 +94,20 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 
 - https://www.cockroachlabs.com/docs/stable/orchestrate-cockroachdb-with-kubernetes.html#hosted-gke
 
+- https://sysdig.com/blog/kubernetes-monitoring-prometheus/
+
+- https://github.com/micro/development
 ## Todo infra
 - [x] istio gateway
-- [x] Grafana ( istio support )
+- [x] Grafana ( helm )
 - [x] Prometheus
 - [x] Setup elk ( log service )
 - [x] Setup CockroachDB ( test HA )
+- [x] Service discovery for developments
+- [x] Helm for CronJobs ( Scheduler )
+- [ ] Set up alert -> using something like cloudwatch when k8s die
 - [ ] Setup kafka
-- [ ] Service discovery for developments
-- [ ] Tools gen istio-gateway ( route for all services )
+- [ ] Tools gen istio-gateway ( route for all services ) -> remove istio using api gateway
 - [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )
 - [ ] Move to aws if have money
 - [ ] More

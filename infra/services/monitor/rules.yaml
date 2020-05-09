@@ -1,0 +1,27 @@
+# example rules for alert manager
+global:
+  slack_api_url: 'https://hooks.slack.com/services/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'
+receivers:
+  - name: 'slack-notifications'
+    slack_configs:
+      - channel: '#team'
+        text: 'hello'
+route:
+  group_interval: 1s
+  group_wait: 10s
+  receiver: slack-notifications
+  repeat_interval: 1s
+
+
+# groups rules in prometheus
+---
+groups:
+  - name: my-group-name
+    rules:
+      - alert: High Pod Memory
+        expr: sum(container_memory_usage_bytes) > 1
+        for: 1m
+        labels:
+          severity: slack
+        annotations:
+          summary: High Memory Usage

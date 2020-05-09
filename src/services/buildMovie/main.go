@@ -4,9 +4,8 @@ import (
 	"context"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/broker"
-	"github.com/micro/go-micro/v2/config/cmd"
-	"github.com/micro/go-micro/v2/util/log"
-	"github.com/micro/go-plugins/broker/rabbitmq/v2"
+	"github.com/micro/go-micro/v2/logger"
+	micro_app "microservice/src/gopkg/core/microApp"
 	micro_models "microservice/src/gopkg/models"
 	micro_services "microservice/src/gopkg/services"
 	"microservice/src/services/buildMovie/handler"
@@ -23,48 +22,41 @@ func sendEv(topic string, p micro.Publisher) {
 			Id: time.Now().Unix(),
 		}
 		if err := p.Publish(context.Background(), ev); err != nil {
-			log.Logf("error publishing: %v", err)
+			logger.Error("error publishing: %v", err)
 		}
 	}
 }
 
 func sub(broker2 broker.Broker) {
 	_, err := broker2.Subscribe("capture_additional_charge", func(p broker.Event) error {
-		log.Infof("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
+		logger.Infof("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
 		return nil
 	}, broker.Queue("order_capture_additional_charge"))
 	if err != nil {
-		log.Error("error", err)
+		logger.Error("error", err)
 	}
 }
 
 func main() {
 	// New Service
-	service := micro.NewService(
-		micro.Name("shippy.service.consignment"),
-		micro.Version("latest"),
-	)
+	service := micro_app.NewService(micro.Name("go.haduong.service.build_movie"))
 
 	service.Client()
 
 	// Initialise service
 	service.Init()
 
-	defaultBroker := rabbitmq.NewBroker()
-
-	if err := cmd.Init(); err != nil {
-		log.Fatalf("Cmd Init error: %v", err)
+	defaultBroker, err := micro_app.GetBroker()
+	if err != nil {
+		logger.Fatalf("Broker Init error: %v", err)
 	}
 
-	if err := defaultBroker.Init(
-		broker.Addrs("amqp://bkgo:bkgopass@rabbitmq:5672/vhost"),
-		rabbitmq.ExchangeName("post_order_processor"),
-	); err != nil {
-		log.Fatalf("Broker Init error: %v", err)
-	}
-
-	if err := defaultBroker.Connect(); err != nil {
-		log.Fatalf("Broker Connect error: %v", err)
+	_, err = defaultBroker.Subscribe("capture_additional_charge", func(p broker.Event) error {
+		logger.Infof("[sub] received message:", string(p.Message().Body), "header", p.Message().Header)
+		return nil
+	}, broker.Queue("order_capture_additional_charge"))
+	if err != nil {
+		logger.Error("error", err)
 	}
 
 	// Register Handler
@@ -72,7 +64,7 @@ func main() {
 		Broker: defaultBroker,
 	})
 
-	go sub(defaultBroker)
+	//go sub(defaultBroker)
 
 	//go func() {
 	//	// Register Struct as Subscriber
@@ -91,6 +83,6 @@ func main() {
 
 	// Run service
 	if err := service.Run(); err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 }

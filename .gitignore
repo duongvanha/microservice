@@ -7,3 +7,5 @@
 *env
 .terraform
 infra/hosts
+infra/terraform.tfstate
+infra/terraform.tfstate.backup

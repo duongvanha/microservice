@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  namespace: monitoring
+  name: monitoring-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: grafana.sanlovie.tk
+      http:
+        paths:
+          - backend:
+              serviceName: prometheus-operator-grafana
+              servicePort: 3000
+    - host: prometheus.sanlovie.tk
+      http:
+        paths:
+          - backend:
+              serviceName: prometheus-server
+              servicePort: 9090
+    - host: alert.sanlovie.tk
+      http:
+        paths:
+          - backend:
+              serviceName: prometheus-alertmanager
+              servicePort: 9093

@@ -1,48 +1,20 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
-	"log"
+	"microservice/src/tools/helper"
 	"microservice/src/tools/obj"
 	"os"
-	"path/filepath"
 )
-
-type Build struct {
-	Dir  string `json:"dir"`
-	Lang string `json:"lang"`
-	Name string `json:"name"`
-}
 
 var buddyCmd = &cobra.Command{
 	Use:   "buddy",
 	Short: "gen config buddy",
 	Run: func(cmd *cobra.Command, args []string) {
-		var currentDir string
-		if len(args) > 0 {
-			currentDir = args[0]
-		} else {
-			currentDir, _ = os.Getwd()
-		}
-
-		var services []*Build
-
-		err := filepath.Walk(currentDir, func(pathService string, info os.FileInfo, err error) error {
-			if info.Name() == "build.json" {
-				build, err := getBuild(pathService)
-				if err != nil {
-					fmt.Println("The file %w structure is incorrect", pathService)
-					os.Exit(1)
-				}
-				services = append(services, build)
-			}
-			return nil
-		})
-
+		services, err := helper.ScannerService(args)
 		if err != nil {
 			fmt.Println(fmt.Sprintf("Scan dir error %v", err))
 		}
@@ -59,29 +31,12 @@ func init() {
 	rootCmd.AddCommand(buddyCmd)
 }
 
-func getBuild(path string) (*Build, error) {
-	file, err := ioutil.ReadFile(path)
-
-	if err != nil {
-		return nil, err
-	}
-
-	build := Build{}
-
-	err = json.Unmarshal([]byte(file), &build)
-	if err != nil {
-		return nil, err
-	}
-
-	return &build, nil
-}
-
-func BuildBuddyYml(services []*Build) error {
+func BuildBuddyYml(services []*obj.Build) error {
 	var actions []obj.BuddyAction
 
 	for _, service := range services {
 		actions = append(actions, obj.BuddyAction{
-			Pipeline:         service.Dir,
+			Pipeline:         helper.GetSubPath(service.Dir, 1),
 			TriggerMode:      "ON_EVERY_PUSH",
 			RefName:          "master",
 			RefType:          "BRANCH",
@@ -95,7 +50,7 @@ func BuildBuddyYml(services []*Build) error {
 					Disabled:         false,
 					DockerImageTag:   "latest,${BUDDY_EXECUTION_REVISION}",
 					DockerfilePath:   fmt.Sprintf("src/docker/%s.dockerfile", service.Lang),
-					ContextPath:      "src/services/" + service.Dir,
+					ContextPath:      helper.GetSubPath(service.Dir, 3),
 					Repository:       service.Name,
 					TriggerCondition: "ALWAYS",
 				},
@@ -115,7 +70,8 @@ func BuildBuddyYml(services []*Build) error {
 
 	output, err := yaml.Marshal(&actions)
 	if err != nil {
-		log.Fatalf("error: %v", err)
+		fmt.Println("error", err)
+		os.Exit(1)
 	}
 
 	nameFile := "buddy.yml"

@@ -1,0 +1,9 @@
+replicaCount: 1
+
+image:
+  repository: blademaster996/go.haduong.scanner.movie
+  pullPolicy: IfNotPresent
+  tag: "1"
+
+type: scheduler
+schedule: "*/1 * * * *"

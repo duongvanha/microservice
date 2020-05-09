@@ -19,12 +19,12 @@ func GetBroker() (broker microBroker.Broker, err error) {
 		rabbitmq.ExchangeName("post_order_processor"),
 	); err != nil {
 		logger.Errorf("Broker Init error: %v", err)
-		return
+		return broker, err
 	}
 
 	if err := broker.Connect(); err != nil {
 		logger.Errorf("Broker Connect error: %v", err)
-		return
+		return broker, err
 	}
 
 	return

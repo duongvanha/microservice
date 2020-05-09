@@ -12,6 +12,7 @@ fullnameOverride: ""
 serviceAccount:
   create: false
 
+type: consumer
 
 service:
   type: ClusterIP

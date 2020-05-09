@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: elk.sanlovie.com
+    - host: elk.sanlovie.tk
       http:
         paths:
           - backend:

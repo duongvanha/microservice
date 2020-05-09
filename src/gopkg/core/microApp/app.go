@@ -11,8 +11,9 @@ import (
 )
 
 type MicroApp struct {
-	name string
-	port string
+	name    string
+	port    string
+	version string
 }
 
 func init() {
@@ -24,12 +25,23 @@ func init() {
 	logger.DefaultLogger = zapLogger
 }
 
+func getMicroApp() MicroApp {
+	app := MicroApp{}
+	flag.StringVar(&app.name, "app-name", "go.haduong.api.movie", "App Name")
+	flag.StringVar(&app.port, "http-host", ":3000", "HTTP listen host")
+	flag.StringVar(&app.version, "version", "latest", "App Name")
+	return app
+}
+
 // NewService returns a new go-micro service pre-initialised for k8s
 func NewService(opts ...micro.Option) micro.Service {
 
+	microApp := getMicroApp()
+
 	// set default options
 	options := []micro.Option{
-		micro.Version("latest"),
+		micro.Version(microApp.version),
+		micro.Name(microApp.name),
 		micro.WrapClient(roundrobin.NewClientWrapper()),
 	}
 
@@ -44,18 +56,13 @@ func NewService(opts ...micro.Option) micro.Service {
 func NewWebApp(opts ...web.Option) web.Service {
 
 	// create new service
-	service := micro.NewService()
-	app := MicroApp{}
-
-	// flags for http
-	flag.StringVar(&app.port, "http-host", ":3000", "HTTP listen host")
-	flag.StringVar(&app.name, "app-name", "go.haduong.api.movie", "App Name")
+	service := NewService()
+	microApp := getMicroApp()
 
 	// prepend option
 	options := []web.Option{
 		web.MicroService(service),
-		web.Name(app.name),
-		web.Address(app.port),
+		web.Address(microApp.port),
 	}
 
 	// append user options

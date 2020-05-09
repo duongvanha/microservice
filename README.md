@@ -104,8 +104,8 @@ Branch stores the writing setup process infra on google cloud (not use gke) usin
 - [x] Setup elk ( log service )
 - [x] Setup CockroachDB ( test HA )
 - [x] Service discovery for developments
-- [ ] Helm for CronJobs ( Scheduler )
-- [ ] Set up alert
+- [x] Helm for CronJobs ( Scheduler )
+- [ ] Set up alert -> using something like cloudwatch when k8s die
 - [ ] Setup kafka
 - [ ] Tools gen istio-gateway ( route for all services ) -> remove istio using api gateway
 - [ ] Move cicd to jenkins or https://travis-ci.org ( buddy.works limit build 120/M )

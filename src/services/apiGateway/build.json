@@ -1,0 +1,5 @@
+{
+  "lang": "go",
+  "name": "scanner_movie",
+  "type": "scheduler"
+}

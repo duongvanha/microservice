@@ -1,22 +1,37 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
 
+type Profile struct {
+	Name    string
+	Hobbies []string
+}
+
 func main() {
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-		_, _ = writer.Write([]byte("hello word"))
+	r.HandleFunc("/", func(w http.ResponseWriter, request *http.Request) {
+		profile := Profile{"Alex", []string{"snowboarding", "programming"}}
+
+		js, err := json.Marshal(profile)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 	})
 
 	http.Handle("/", r)
 
-	port := "8080"
+	port := "8081"
 
 	log.Println("Starting HTTP service at " + port)
 

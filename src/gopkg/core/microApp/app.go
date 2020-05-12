@@ -19,6 +19,7 @@ type MicroApp struct {
 }
 
 var microApp *MicroApp
+var defaultRegistry *registry.Registry
 
 func init() {
 	zapLogger, err := zap.NewLogger(zap.WithCallerSkip(2))
@@ -41,8 +42,13 @@ func getMicroApp() MicroApp {
 	return *microApp
 }
 
-func registerOption(option registry.Option) {
+func GetRegistry() registry.Registry {
+	if defaultRegistry == nil {
+		tmpRegistry := etcd.NewRegistry()
+		defaultRegistry = &tmpRegistry
+	}
 
+	return *defaultRegistry
 }
 
 // NewService returns a new go-micro service pre-initialised for k8s
@@ -55,7 +61,7 @@ func NewService(opts ...micro.Option) micro.Service {
 		micro.Metadata(map[string]string{
 			"hello": "word",
 		}),
-		micro.Registry(etcd.NewRegistry()),
+		micro.Registry(GetRegistry()),
 		micro.Version(microApp.version),
 		micro.Name(microApp.name),
 		micro.WrapClient(roundrobin.NewClientWrapper()),
@@ -78,6 +84,9 @@ func NewWebApp(opts ...web.Option) web.Service {
 	// prepend option
 	options := []web.Option{
 		web.MicroService(service),
+		web.Metadata(map[string]string{
+			"route": "/admin",
+		}),
 		web.Address(microApp.port),
 	}
 

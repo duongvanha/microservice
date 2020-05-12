@@ -1,21 +1,46 @@
 package main
 
 import (
-	"context"
 	"flag"
-	krakendgin "github.com/devopsfaith/krakend/router/gin"
-	"github.com/gin-gonic/gin"
-	"log"
-	"os"
-
-	"github.com/devopsfaith/krakend-etcd"
 	"github.com/devopsfaith/krakend/config"
 	"github.com/devopsfaith/krakend/logging"
 	"github.com/devopsfaith/krakend/proxy"
-	"github.com/devopsfaith/krakend/router"
+	"github.com/devopsfaith/krakend/router/gin"
+	microLogger "github.com/micro/go-micro/v2/logger"
+	micro_app "microservice/src/gopkg/core/microApp"
+	"os"
 )
 
 func main() {
+	registry := micro_app.GetRegistry()
+
+	services, err := registry.ListServices()
+
+	if err != nil {
+		microLogger.Fatal(err.Error())
+	}
+
+	var endpoints []*config.EndpointConfig
+
+	for _, service := range services {
+		for _, endpoint := range service.Endpoints {
+			endpoints = append(endpoints, &config.EndpointConfig{
+				Method:         "GET",
+				Endpoint:       service.Nodes[0].Metadata["route"] + endpoint.Name,
+				OutputEncoding: "no-op",
+				Backend: []*config.Backend{{
+					Method:                   "GET",
+					Host:                     []string{"http://localhost:3000"},
+					URLPattern:               endpoint.Name,
+					SD:                       "static",
+					HostSanitizationDisabled: true,
+				}},
+			})
+		}
+	}
+
+	println(services)
+
 	port := flag.Int("p", 0, "Port of the service")
 	logLevel := flag.String("l", "ERROR", "Logging level")
 	debug := flag.Bool("d", false, "Enable the debug")
@@ -25,51 +50,20 @@ func main() {
 	parser := config.NewParser()
 	serviceConfig, err := parser.Parse(*configFile)
 	if err != nil {
-		log.Fatal("ERROR:", err.Error())
+		microLogger.Fatal("ERROR:", err.Error())
 	}
 	serviceConfig.Debug = serviceConfig.Debug || *debug
 	if *port != 0 {
 		serviceConfig.Port = *port
 	}
 
-	logger, err := logging.NewLogger(*logLevel, os.Stdout, "[KRAKEND]")
-	if err != nil {
-		log.Fatal("ERROR:", err.Error())
-	}
+	serviceConfig.Endpoints = endpoints
 
-	ctx, cancel := context.WithCancel(context.Background())
+	logger, _ := logging.NewLogger(*logLevel, os.Stdout, "[KRAKEND]")
 
-	etcdClient, err := etcd.New(ctx, serviceConfig.ExtraConfig)
-	if err != nil {
-		log.Fatal("ERROR:", err.Error())
-	}
+	routerFactory := gin.DefaultFactory(proxy.DefaultFactory(logger), logger)
 
-	//krakendMux.NewFactory(krakendMux.Config{
-	//	Engine:         krakendMux.DefaultEngine(),
-	//	HandlerFactory: krakendMux.EndpointHandler,
-	//	ProxyFactory: customProxyFactory{
-	//		logger,
-	//		proxy.DefaultFactoryWithSubscriber(logger, etcd.SubscriberFactory(ctx, etcdClient)),
-	//	},
-	//	Logger:    logger,
-	//	RunServer: router.RunServer,
-	//}).NewWithContext(ctx).Run(serviceConfig)
-
-	routerFactory := krakendgin.NewFactory(krakendgin.Config{
-		Engine:         gin.Default(),
-		Middlewares:    []gin.HandlerFunc{},
-		Logger:         logger,
-		HandlerFactory: krakendgin.EndpointHandler,
-		ProxyFactory: customProxyFactory{
-			logger,
-			proxy.DefaultFactoryWithSubscriber(logger, etcd.SubscriberFactory(ctx, etcdClient)),
-		},
-		RunServer: router.RunServer,
-	})
-
-	routerFactory.NewWithContext(ctx).Run(serviceConfig)
-
-	cancel()
+	routerFactory.New().Run(serviceConfig)
 }
 
 // customProxyFactory adds a logging middleware wrapping the internal factory

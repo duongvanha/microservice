@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/logger"
+	"github.com/micro/go-micro/v2/registry"
+	"github.com/micro/go-micro/v2/registry/etcd"
 	"github.com/micro/go-micro/v2/web"
 	"github.com/micro/go-plugins/logger/zap/v2"
 	"github.com/micro/go-plugins/wrapper/select/roundrobin/v2"
@@ -16,6 +18,8 @@ type MicroApp struct {
 	version string
 }
 
+var microApp *MicroApp
+
 func init() {
 	zapLogger, err := zap.NewLogger(zap.WithCallerSkip(2))
 	if err != nil {
@@ -26,11 +30,19 @@ func init() {
 }
 
 func getMicroApp() MicroApp {
-	app := MicroApp{}
-	flag.StringVar(&app.name, "app-name", "go.haduong.api.movie", "App Name")
-	flag.StringVar(&app.port, "http-host", ":3000", "HTTP listen host")
-	flag.StringVar(&app.version, "version", "latest", "App Name")
-	return app
+	if microApp == nil {
+		app := MicroApp{}
+		flag.StringVar(&app.name, "app-name", "go.haduong.api.movie", "App Name")
+		flag.StringVar(&app.port, "http-host", ":3000", "HTTP listen host")
+		flag.StringVar(&app.version, "version", "latest", "App Name")
+		microApp = &app
+
+	}
+	return *microApp
+}
+
+func registerOption(option registry.Option) {
+
 }
 
 // NewService returns a new go-micro service pre-initialised for k8s
@@ -40,6 +52,10 @@ func NewService(opts ...micro.Option) micro.Service {
 
 	// set default options
 	options := []micro.Option{
+		micro.Metadata(map[string]string{
+			"hello": "word",
+		}),
+		micro.Registry(etcd.NewRegistry()),
 		micro.Version(microApp.version),
 		micro.Name(microApp.name),
 		micro.WrapClient(roundrobin.NewClientWrapper()),

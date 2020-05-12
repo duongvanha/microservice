@@ -1,13 +1,18 @@
 package main
 
 import (
+	"context"
 	"flag"
+	krakendgin "github.com/devopsfaith/krakend/router/gin"
+	"github.com/gin-gonic/gin"
+	"log"
+	"os"
+
+	"github.com/devopsfaith/krakend-etcd"
 	"github.com/devopsfaith/krakend/config"
 	"github.com/devopsfaith/krakend/logging"
 	"github.com/devopsfaith/krakend/proxy"
-	"github.com/devopsfaith/krakend/router/gin"
-	"log"
-	"os"
+	"github.com/devopsfaith/krakend/router"
 )
 
 func main() {
@@ -27,9 +32,57 @@ func main() {
 		serviceConfig.Port = *port
 	}
 
-	logger, _ := logging.NewLogger(*logLevel, os.Stdout, "[KRAKEND]")
+	logger, err := logging.NewLogger(*logLevel, os.Stdout, "[KRAKEND]")
+	if err != nil {
+		log.Fatal("ERROR:", err.Error())
+	}
 
-	routerFactory := gin.DefaultFactory(proxy.DefaultFactory(logger), logger)
+	ctx, cancel := context.WithCancel(context.Background())
 
-	routerFactory.New().Run(serviceConfig)
+	etcdClient, err := etcd.New(ctx, serviceConfig.ExtraConfig)
+	if err != nil {
+		log.Fatal("ERROR:", err.Error())
+	}
+
+	//krakendMux.NewFactory(krakendMux.Config{
+	//	Engine:         krakendMux.DefaultEngine(),
+	//	HandlerFactory: krakendMux.EndpointHandler,
+	//	ProxyFactory: customProxyFactory{
+	//		logger,
+	//		proxy.DefaultFactoryWithSubscriber(logger, etcd.SubscriberFactory(ctx, etcdClient)),
+	//	},
+	//	Logger:    logger,
+	//	RunServer: router.RunServer,
+	//}).NewWithContext(ctx).Run(serviceConfig)
+
+	routerFactory := krakendgin.NewFactory(krakendgin.Config{
+		Engine:         gin.Default(),
+		Middlewares:    []gin.HandlerFunc{},
+		Logger:         logger,
+		HandlerFactory: krakendgin.EndpointHandler,
+		ProxyFactory: customProxyFactory{
+			logger,
+			proxy.DefaultFactoryWithSubscriber(logger, etcd.SubscriberFactory(ctx, etcdClient)),
+		},
+		RunServer: router.RunServer,
+	})
+
+	routerFactory.NewWithContext(ctx).Run(serviceConfig)
+
+	cancel()
+}
+
+// customProxyFactory adds a logging middleware wrapping the internal factory
+type customProxyFactory struct {
+	logger  logging.Logger
+	factory proxy.Factory
+}
+
+// New implements the Factory interface
+func (cf customProxyFactory) New(cfg *config.EndpointConfig) (p proxy.Proxy, err error) {
+	p, err = cf.factory.New(cfg)
+	if err == nil {
+		p = proxy.NewLoggingMiddleware(cf.logger, cfg.Endpoint)(p)
+	}
+	return
 }

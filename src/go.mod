@@ -4,8 +4,9 @@ go 1.13
 
 require (
 	github.com/devopsfaith/krakend v1.1.1
+	github.com/devopsfaith/krakend-etcd v0.0.0-20190425091451-d989a26508d7
+	github.com/gin-gonic/gin v1.1.5-0.20170702092826-d459835d2b07
 	github.com/golang/protobuf v1.3.5
-	github.com/gorilla/mux v1.7.4
 	github.com/micro/go-micro/v2 v2.5.0
 	github.com/micro/go-plugins/broker/rabbitmq/v2 v2.5.0
 	github.com/micro/go-plugins/logger/zap/v2 v2.5.0

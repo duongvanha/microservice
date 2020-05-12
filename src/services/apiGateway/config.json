@@ -1,18 +1,35 @@
 {
   "version": 2,
-  "timeout": "3000ms",
-  "cache_ttl": "300s",
-  "host": [
-    "http://localhost:8081"
-  ],
+  "name": "My lovely gateway",
+  "port": 8080,
+  "cache_ttl": "3600s",
+  "timeout": "3s",
   "endpoints": [
     {
       "endpoint": "/splash",
+      "output_encoding": "no-op",
       "backend": [
         {
-          "url_pattern": ""
+          "url_pattern": "/",
+          "encoding": "no-op",
+          "sd": "etcd",
+          "host": [
+            "demo"
+          ],
+          "disable_host_sanitize": true
         }
       ]
     }
-  ]
+  ],
+  "extra_config": {
+    "github_com/devopsfaith/krakend-etcd": {
+      "machines": [ "http://127.0.0.1:2379" ],
+      "client_version": "v3",
+      "options": {
+        "dial_timeout": "5s",
+        "dial_keepalive": "30s",
+        "header_timeout": "1s"
+      }
+    }
+  }
 }

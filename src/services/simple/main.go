@@ -1,9 +1,9 @@
 package main
 
 import (
-	"encoding/json"
-	"github.com/gorilla/mux"
-	"log"
+	"github.com/micro/go-micro/v2/logger"
+	micro_app "microservice/src/gopkg/core/microApp"
+	"microservice/src/gopkg/core/transport/transhttp"
 	"net/http"
 )
 
@@ -14,32 +14,24 @@ type Profile struct {
 
 func main() {
 
-	r := mux.NewRouter()
+	service := micro_app.NewWebApp()
 
-	r.HandleFunc("/", func(w http.ResponseWriter, request *http.Request) {
-		profile := Profile{"Alex", []string{"snowboarding", "programming"}}
-
-		js, err := json.Marshal(profile)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(js)
+	service.HandleFunc("/helo", func(w http.ResponseWriter, request *http.Request) {
+		transhttp.RespondJSON(w, http.StatusOK, Profile{"Alex", []string{"snowboarding", "programming"}})
 	})
 
-	http.Handle("/", r)
+	service.HandleFunc("/hello", func(w http.ResponseWriter, request *http.Request) {
+		transhttp.RespondJSON(w, http.StatusOK, Profile{"Alex", []string{"snowboarding", "programming"}})
+	})
 
-	port := "8081"
+	logger.Infof("service running")
 
-	log.Println("Starting HTTP service at " + port)
+	if err := service.Init(); err != nil {
+		logger.Fatal(err)
+	}
 
-	err := http.ListenAndServe(":"+port, nil)
-
-	if err != nil {
-		log.Println("An error occured starting HTTP listener at port " + port)
-		log.Println("Error: " + err.Error())
+	if err := service.Run(); err != nil {
+		logger.Fatal(err)
 	}
 
 }
